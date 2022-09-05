@@ -10,12 +10,12 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    ...canActivate(() => redirectLoggedInTo('home'))
+    // ...canActivate(() => redirectLoggedInTo('home'))
   },
   {
     path: 'home',
     component: HomeComponent,
-    ...canActivate(() => redirectUnauthorizedTo('login'))
+    // ...canActivate(() => redirectUnauthorizedTo('login'))
   },
   {
     path: 'quien-soy',
