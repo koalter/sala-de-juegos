@@ -3,3 +3,7 @@
 @import '~bootswatch/dist/vapor/variables';
 @import '~bootstrap/scss/bootstrap';
 @import '~bootswatch/dist/vapor/bootswatch';
+
+body {
+    min-height: 100vh;
+}
