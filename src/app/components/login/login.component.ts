@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { UsuarioService } from 'src/app/shared/usuario.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -9,20 +7,22 @@ import { UsuarioService } from 'src/app/shared/usuario.service';
 })
 export class LoginComponent implements OnInit {
 
-  nombre: string = '';
+  @Output() setUsuario: EventEmitter<any> = new EventEmitter<any>();
+  correo: string = '';
   clave: string = '';
 
-  constructor(private usuarioService: UsuarioService,
-    private router: Router) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
 
-  async iniciarSesion() {
-    const result = await this.usuarioService.iniciarSesion(this.nombre, this.clave);
-    if (result) {
-      await this.router.navigateByUrl('/');
-    }
+  enviarCredenciales() {
+    this.setUsuario.emit({ correo: this.correo, clave: this.clave });
+  }
+
+  usarDatosDePrueba(correo: string, clave: string) {
+    this.correo = correo;
+    this.clave = clave;
   }
 
 }

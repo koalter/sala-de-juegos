@@ -1,12 +1,18 @@
-<div class="container-fluid p-5 card border-primary rounded-3 bg-primary">
+<nav class="nav">
+    <button *ngIf="usuario; else inicio" (click)="cerrarSesion()" class="col-md-2 col-xxl-1 m-2 btn btn-outline-danger">Cerrar sesión</button>
+    <ng-template #inicio>
+        <button (click)="modoLogin = 'login'" class=" m-2 btn btn-info">Iniciar sesión</button>
+        <button (click)="modoLogin = 'registro'" class=" m-2 btn btn-outline-success">Registrarse</button>
+    </ng-template>
+</nav>
+<div *ngIf="usuario; else inicio2" class="container-fluid p-5 card border-primary rounded-3 bg-primary">
     <h1 class="mb-4">Bienvenido a la Sala de Juegos de Lorenzo Cea!</h1>
     <p class="col-xl-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste ab vel at inventore. Quis assumenda ratione quasi sint sunt odio id autem quisquam cupiditate nihil, maxime explicabo dignissimos possimus aperiam?</p>
     <div class="row">
         <button routerLink="/about" class="col-md-2 col-xxl-1 m-2 btn btn-info">Quien Soy</button>
-        <button *ngIf="user; else iniciarSesion" (click)="cerrarSesion()" class="col-md-2 col-xxl-1 m-2 btn btn-outline-danger">Cerrar sesión</button>
-        <ng-template #iniciarSesion>
-            <button routerLink="/login" class="col-md-2 col-xxl-1 m-2 btn btn-secondary">Iniciar sesión</button>
-            <button routerLink="/register" class="col-md-2 col-xxl-1 m-2 btn btn-outline-success">Registrarse</button>
-        </ng-template>
     </div>
 </div>
+
+<ng-template #inicio2>
+    <app-login (setUsuario)="iniciarSesion($event)" *ngIf="modoLogin === 'login'"></app-login>
+</ng-template>

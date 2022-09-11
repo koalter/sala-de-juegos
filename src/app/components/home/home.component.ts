@@ -1,30 +1,37 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { UsuarioService } from 'src/app/shared/usuario.service';
+import { Component, OnInit } from '@angular/core';
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { addDoc, collection, Firestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
 
-  user: any;
-  obtenerUsuarioSubscription: Subscription|any;
+  usuario: any;
+  modoLogin: string = 'login';
 
-  constructor(private usuarioService: UsuarioService) { }
+  constructor(private auth: Auth,
+    private firestore: Firestore) { }
   
   ngOnInit(): void {
-    this.obtenerUsuarioSubscription = this.usuarioService.obtenerUsuario().subscribe({ next: (user) => {
-      this.user = user;
-    }});
-  }
-  
-  ngOnDestroy(): void {
-    this.obtenerUsuarioSubscription.unsubscribe();
+    this.usuario = this.auth.currentUser;
   }
 
-  async cerrarSesion() {
-    await this.usuarioService.cerrarSesion();
+  async iniciarSesion({ correo, clave }) {
+    try {
+      const result = await signInWithEmailAndPassword(this.auth, correo, clave);
+      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()).toString() });
+      this.usuario = result.user;
+
+    } catch (err: any) {
+      await addDoc(collection(this.firestore, 'logErrores'), { error: err.message, fecha: new Date(Date.now()).toString() });
+      this.usuario = null;
+    }
+  }
+
+  cerrarSesion() {
+    this.usuario = null;
   }
 }
