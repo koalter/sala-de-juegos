@@ -8,14 +8,14 @@ import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
   {
-    path: 'login',
-    component: LoginComponent,
-    // ...canActivate(() => redirectLoggedInTo('home'))
-  },
-  {
-    path: 'home',
+    path: '',
     component: HomeComponent,
     // ...canActivate(() => redirectUnauthorizedTo('login'))
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    ...canActivate(() => redirectLoggedInTo(''))
   },
   {
     path: 'quien-soy',
@@ -24,11 +24,6 @@ const routes: Routes = [
   {
     path: 'about',
     redirectTo: 'quien-soy',
-    pathMatch: 'full'
-  },
-  {
-    path: '',
-    redirectTo: 'home',
     pathMatch: 'full'
   }
 ];

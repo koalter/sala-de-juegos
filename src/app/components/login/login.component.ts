@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UsuarioService } from 'src/app/shared/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -10,14 +12,17 @@ export class LoginComponent implements OnInit {
   nombre: string = '';
   clave: string = '';
 
-  constructor() { }
+  constructor(private usuarioService: UsuarioService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  enviar(): void {
-    const usuario = { nombre: this.nombre, clave: this.clave }
-    console.log(usuario);
+  async iniciarSesion() {
+    const result = await this.usuarioService.iniciarSesion(this.nombre, this.clave);
+    if (result) {
+      await this.router.navigateByUrl('/');
+    }
   }
 
 }
