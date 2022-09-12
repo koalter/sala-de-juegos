@@ -22,11 +22,4 @@
     <app-registro (setUsuario)="registrarUsuario($event)" *ngIf="modoLogin === 'registro'"></app-registro>
 </ng-template>
 
-<div *ngIf="cargarSpinner" id="spinner" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
-    <div class="bg-primary px-4 pt-4 rounded-4">
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden"></span>
-        </div>
-        <p class="py-2">Cargando</p>
-    </div>
-</div>
+<app-spinner [condicion]="cargarSpinner"></app-spinner>

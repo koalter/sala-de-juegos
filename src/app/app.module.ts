@@ -12,6 +12,7 @@ import { HomeComponent } from './components/home/home.component';
 import { QuienSoyComponent } from './components/quien-soy/quien-soy.component';
 import { FormsModule } from '@angular/forms';
 import { RegistroComponent } from './components/registro/registro.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { RegistroComponent } from './components/registro/registro.component';
     LoginComponent,
     HomeComponent,
     QuienSoyComponent,
-    RegistroComponent
+    RegistroComponent,
+    SpinnerComponent
   ],
   imports: [
     FormsModule,
