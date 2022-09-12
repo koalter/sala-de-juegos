@@ -11,13 +11,19 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { QuienSoyComponent } from './components/quien-soy/quien-soy.component';
 import { FormsModule } from '@angular/forms';
+import { RegistroComponent } from './components/registro/registro.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { AuthErroresComponent } from './components/auth-errores/auth-errores.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    QuienSoyComponent
+    QuienSoyComponent,
+    RegistroComponent,
+    SpinnerComponent,
+    AuthErroresComponent
   ],
   imports: [
     FormsModule,

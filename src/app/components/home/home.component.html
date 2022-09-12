@@ -1,7 +1,27 @@
-<div class="container-fluid p-5 card border-primary rounded-3 bg-primary">
-    <h1>Bienvenido a la Sala de Juegos de Lorenzo Cea!</h1>
-    <p class="w-50">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste ab vel at inventore. Quis assumenda ratione quasi sint sunt odio id autem quisquam cupiditate nihil, maxime explicabo dignissimos possimus aperiam?</p>
-    <div class="buttons">
-        <a routerLink="/about" class="btn btn-info">Quien Soy</a>
+<nav class="nav">
+    <span *ngIf="usuario; then logout; else inicio"></span>
+    <ng-template #logout>
+        <button class="m-2 btn btn-outline-info">{{ usuario.displayName || usuario.email }}</button>
+        <button (click)="cerrarSesion()" class="m-2 btn btn-danger">Cerrar sesión</button>
+    </ng-template>
+    <ng-template #inicio>
+        <button (click)="modoLogin = 'login'" class="m-2 btn btn-info">Iniciar sesión</button>
+        <button (click)="modoLogin = 'registro'" class="m-2 btn btn-outline-success">Registrarse</button>
+    </ng-template>
+</nav>
+<div *ngIf="usuario; else inicio2" class="container-fluid p-5 card border-primary rounded-3 bg-primary">
+    <h1 class="mb-4">Bienvenido a la Sala de Juegos de Lorenzo Cea!</h1>
+    <p class="col-xl-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste ab vel at inventore. Quis assumenda ratione quasi sint sunt odio id autem quisquam cupiditate nihil, maxime explicabo dignissimos possimus aperiam?</p>
+    <div class="row">
+        <button routerLink="/about" class="col-md-2 col-xxl-1 m-2 btn btn-info">Quien Soy</button>
     </div>
 </div>
+
+<ng-template #inicio2>
+    <app-login (setUsuario)="iniciarSesion($event)" *ngIf="modoLogin === 'login'"></app-login>
+    <app-registro (setUsuario)="registrarUsuario($event)" *ngIf="modoLogin === 'registro'"></app-registro>
+</ng-template>
+
+<app-spinner [condicion]="cargarSpinner"></app-spinner>
+
+<auth-errores *ngIf="error" [error]="error" (volver)="manejadorAuthErrores()"></auth-errores>

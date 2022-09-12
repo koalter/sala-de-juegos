@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  nombre: string = '';
+  @Output() setUsuario: EventEmitter<any> = new EventEmitter<any>();
+  correo: string = '';
   clave: string = '';
 
   constructor() { }
@@ -15,9 +16,13 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  enviar(): void {
-    const usuario = { nombre: this.nombre, clave: this.clave }
-    console.log(usuario);
+  enviarCredenciales() {
+    this.setUsuario.emit({ correo: this.correo, clave: this.clave });
+  }
+
+  usarDatosDePrueba(correo: string, clave: string) {
+    this.correo = correo;
+    this.clave = clave;
   }
 
 }
