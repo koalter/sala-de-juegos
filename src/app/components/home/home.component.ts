@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
 import { addDoc, collection, Firestore } from '@angular/fire/firestore';
 
 @Component({
@@ -31,6 +31,24 @@ export class HomeComponent implements OnInit {
       this.usuario = result.user;
 
     } catch (err: any) {
+      console.error(err.code);
+      await addDoc(collection(this.firestore, 'logErrores'), { error: err.message, fecha: new Date(Date.now()).toString() });
+      this.usuario = null;
+    } finally {
+      this.cargarSpinner = false;
+    }
+  }
+
+  async registrarUsuario({ correo, clave, nombre }) {
+    this.cargarSpinner = true;
+    try {
+      const result = await createUserWithEmailAndPassword(this.auth, correo, clave);
+      await updateProfile(result.user, { displayName: nombre });
+      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()).toString() });
+      this.usuario = result.user;
+
+    } catch (err: any) {
+      console.error(err.code);
       await addDoc(collection(this.firestore, 'logErrores'), { error: err.message, fecha: new Date(Date.now()).toString() });
       this.usuario = null;
     } finally {
@@ -41,6 +59,7 @@ export class HomeComponent implements OnInit {
   async cerrarSesion() {
     this.cargarSpinner = true;
     await this.auth.signOut();
+    this.modoLogin = 'login';
     this.cargarSpinner = false;
   }
 }

@@ -11,13 +11,15 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { QuienSoyComponent } from './components/quien-soy/quien-soy.component';
 import { FormsModule } from '@angular/forms';
+import { RegistroComponent } from './components/registro/registro.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    QuienSoyComponent
+    QuienSoyComponent,
+    RegistroComponent
   ],
   imports: [
     FormsModule,
