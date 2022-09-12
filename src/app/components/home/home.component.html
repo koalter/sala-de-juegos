@@ -1,8 +1,12 @@
 <nav class="nav">
-    <button *ngIf="usuario; else inicio" (click)="cerrarSesion()" class="col-md-2 col-xxl-1 m-2 btn btn-outline-danger">Cerrar sesión</button>
+    <span *ngIf="usuario; then logout; else inicio"></span>
+    <ng-template #logout>
+        <button class="m-2 btn btn-outline-info">{{ usuario.displayName || usuario.email }}</button>
+        <button (click)="cerrarSesion()" class="m-2 btn btn-danger">Cerrar sesión</button>
+    </ng-template>
     <ng-template #inicio>
-        <button (click)="modoLogin = 'login'" class=" m-2 btn btn-info">Iniciar sesión</button>
-        <button (click)="modoLogin = 'registro'" class=" m-2 btn btn-outline-success">Registrarse</button>
+        <button (click)="modoLogin = 'login'" class="m-2 btn btn-info">Iniciar sesión</button>
+        <button (click)="modoLogin = 'registro'" class="m-2 btn btn-outline-success">Registrarse</button>
     </ng-template>
 </nav>
 <div *ngIf="usuario; else inicio2" class="container-fluid p-5 card border-primary rounded-3 bg-primary">
@@ -16,3 +20,12 @@
 <ng-template #inicio2>
     <app-login (setUsuario)="iniciarSesion($event)" *ngIf="modoLogin === 'login'"></app-login>
 </ng-template>
+
+<div *ngIf="cargarSpinner" id="spinner" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
+    <div class="bg-primary px-4 pt-4 rounded-4">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden"></span>
+        </div>
+        <p class="py-2">Cargando</p>
+    </div>
+</div>
