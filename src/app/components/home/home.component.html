@@ -23,3 +23,5 @@
 </ng-template>
 
 <app-spinner [condicion]="cargarSpinner"></app-spinner>
+
+<auth-errores *ngIf="error" [error]="error" (volver)="manejadorAuthErrores()"></auth-errores>

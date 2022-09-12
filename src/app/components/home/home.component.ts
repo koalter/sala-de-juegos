@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   usuario: any;
   modoLogin: string = 'login';
   cargarSpinner: boolean = true;
+  error: string = '';
 
   constructor(private auth: Auth,
     private firestore: Firestore) { }
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
 
   async iniciarSesion({ correo, clave }) {
     this.cargarSpinner = true;
+    let error = '';
     try {
       const result = await signInWithEmailAndPassword(this.auth, correo, clave);
       await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()).toString() });
@@ -32,15 +34,18 @@ export class HomeComponent implements OnInit {
 
     } catch (err: any) {
       console.error(err.code);
+      error = err.code;
       await addDoc(collection(this.firestore, 'logErrores'), { error: err.message, fecha: new Date(Date.now()).toString() });
       this.usuario = null;
     } finally {
       this.cargarSpinner = false;
+      this.error = error;
     }
   }
 
   async registrarUsuario({ correo, clave, nombre }) {
     this.cargarSpinner = true;
+    let error = '';
     try {
       const result = await createUserWithEmailAndPassword(this.auth, correo, clave);
       await updateProfile(result.user, { displayName: nombre });
@@ -49,10 +54,12 @@ export class HomeComponent implements OnInit {
 
     } catch (err: any) {
       console.error(err.code);
+      error = err.code;
       await addDoc(collection(this.firestore, 'logErrores'), { error: err.message, fecha: new Date(Date.now()).toString() });
       this.usuario = null;
     } finally {
       this.cargarSpinner = false;
+      this.error = error;
     }
   }
 
@@ -61,5 +68,9 @@ export class HomeComponent implements OnInit {
     await this.auth.signOut();
     this.modoLogin = 'login';
     this.cargarSpinner = false;
+  }
+
+  manejadorAuthErrores() {
+    this.error = '';
   }
 }

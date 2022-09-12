@@ -13,6 +13,7 @@ import { QuienSoyComponent } from './components/quien-soy/quien-soy.component';
 import { FormsModule } from '@angular/forms';
 import { RegistroComponent } from './components/registro/registro.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { AuthErroresComponent } from './components/auth-errores/auth-errores.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     HomeComponent,
     QuienSoyComponent,
     RegistroComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    AuthErroresComponent
   ],
   imports: [
     FormsModule,
