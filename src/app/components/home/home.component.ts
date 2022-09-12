@@ -29,13 +29,12 @@ export class HomeComponent implements OnInit {
     let error = '';
     try {
       const result = await signInWithEmailAndPassword(this.auth, correo, clave);
-      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()).toString() });
+      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()) });
       this.usuario = result.user;
 
     } catch (err: any) {
-      console.error(err.code);
       error = err.code;
-      await addDoc(collection(this.firestore, 'logErrores'), { error: err.message, fecha: new Date(Date.now()).toString() });
+      await addDoc(collection(this.firestore, 'logErrores'), { error: err.message, fecha: new Date(Date.now()) });
       this.usuario = null;
     } finally {
       this.cargarSpinner = false;
@@ -49,13 +48,12 @@ export class HomeComponent implements OnInit {
     try {
       const result = await createUserWithEmailAndPassword(this.auth, correo, clave);
       await updateProfile(result.user, { displayName: nombre });
-      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()).toString() });
+      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()) });
       this.usuario = result.user;
 
     } catch (err: any) {
-      console.error(err.code);
       error = err.code;
-      await addDoc(collection(this.firestore, 'logErrores'), { error: err.message, fecha: new Date(Date.now()).toString() });
+      await addDoc(collection(this.firestore, 'logErrores'), { error: err.message, fecha: new Date(Date.now()) });
       this.usuario = null;
     } finally {
       this.cargarSpinner = false;
