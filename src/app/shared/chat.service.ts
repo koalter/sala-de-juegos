@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { addDoc, Firestore, getDocs, onSnapshot, query } from '@angular/fire/firestore';
+import { collection } from '@firebase/firestore';
 import { of } from 'rxjs';
 import { ChatLog } from '../models/ChatLog';
 
@@ -7,27 +9,47 @@ import { ChatLog } from '../models/ChatLog';
 })
 export class ChatService {
 
-  private mensajes : ChatLog[] = [{
-    mensaje: "Hola este es un mensaje de prueba!",
-    usuario: "bot1@example.com",
-    tiempo: new Date(Date.now())
-  }];
+  private coleccion = collection(this.firestore, 'chat');
+  private mensajes : ChatLog[] = [];
 
-  constructor() { 
-    setInterval(() => {
-      this.agregarMensaje({
-        mensaje: "Soy un bot ¿y tú?",
-        usuario: "bot1@example.com",
-        tiempo: new Date(Date.now())
+  constructor(private firestore : Firestore) {
+    // setInterval(() => {
+    //   this.agregarMensaje({
+    //     mensaje: "Soy un bot ¿y tú?",
+    //     usuario: "bot1@example.com",
+    //     tiempo: new Date(Date.now())
+    //   });
+    // }, 5000);
+  }
+
+  async recuperarMensajes() {
+    return onSnapshot(this.coleccion, (querySnapshot) => {
+      querySnapshot.forEach(document => {
+        const data = document.data();      
+        const pelicula = new ChatLog(data['mensaje'], data['usuario'], data['tiempo'].toDate());
+        this.mensajes.push(pelicula);
       });
-    }, 5000);
+  
+      return this.mensajes.sort((pre, pro) => {
+        if (pre.tiempo > pro.tiempo) return 1;
+        if (pre.tiempo < pro.tiempo) return -1;
+        return 0;
+      });
+    });
+
   }
 
-  recuperarMensajes() {
-    return of(this.mensajes);
-  }
-
-  agregarMensaje(mensaje : ChatLog) {
-    this.mensajes.push(mensaje);
+  async agregarMensaje(log : ChatLog) {
+    try {
+      const docRef = await addDoc(this.coleccion, {
+        mensaje: log.mensaje,
+        usuario: log.usuario,
+        tiempo: log.tiempo
+      });
+      return docRef.id;
+    } catch (err) {
+      // this.logger.logError(err);
+      throw err;
+    }
   }
 }

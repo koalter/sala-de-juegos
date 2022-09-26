@@ -1,4 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Unsubscribe } from '@angular/fire/auth';
+import { collection, Firestore } from '@angular/fire/firestore';
+import { onSnapshot } from '@firebase/firestore';
 import { Subscription } from 'rxjs';
 import { ChatLog } from 'src/app/models/ChatLog';
 import { ChatService } from 'src/app/shared/chat.service';
@@ -14,23 +17,29 @@ export class ChatComponent implements OnInit, OnDestroy {
   toggleChat : boolean = false;
   mensajes : ChatLog[] = [];
   mensajesLeidos : number;
-  mensajes$ : Subscription;
+  mensajes$ : Unsubscribe;
 
-  constructor(private chatService : ChatService) { }
+  constructor(private chatService : ChatService,
+    private firestore : Firestore) { }
 
   ngOnInit(): void {
-    this.mensajes$ = this.chatService.recuperarMensajes().subscribe(m => {
-      this.mensajes = m;
-      this.mensajesLeidos = this.mensajes.length;
-      setInterval(() => {
-        console.log(this.mensajes.length, ' ', this.mensajesLeidos);
-        this.nuevosMensajes = this.mensajes.length != this.mensajesLeidos;
-      }, 100);
-    });
+    this.mensajes$ = onSnapshot(collection(this.firestore, 'chat'), querySnapshot => {
+      querySnapshot.forEach(document => {
+        const data = document.data();
+        const pelicula = new ChatLog(data['mensaje'], data['usuario'], data['tiempo'].toDate());
+        this.mensajes.push(pelicula);
+      });
+  
+      return this.mensajes.sort((pre, pro) => {
+        if (pre.tiempo > pro.tiempo) return 1;
+        if (pre.tiempo < pro.tiempo) return -1;
+        return 0;
+      });
+    }) 
   }
 
   ngOnDestroy() : void {
-    this.mensajes$.unsubscribe();
+    this.mensajes$();
   }
 
   abrirChat() : void {
@@ -45,7 +54,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   enviarMensaje(mensaje : ChatLog) {
-    this.chatService.agregarMensaje(mensaje);
+    this.chatService.agregarMensaje(mensaje).catch(err => console.error(err));
   }
 
 }
