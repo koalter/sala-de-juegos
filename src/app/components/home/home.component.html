@@ -15,12 +15,14 @@
     <div class="row">
         <button routerLink="/about" class="col-md-2 col-xxl-1 m-2 btn btn-info">Quien Soy</button>
     </div>
+    <app-chat></app-chat>
 </div>
 
 <ng-template #inicio2>
     <app-login (setUsuario)="iniciarSesion($event)" *ngIf="modoLogin === 'login'"></app-login>
     <app-registro (setUsuario)="registrarUsuario($event)" *ngIf="modoLogin === 'registro'"></app-registro>
 </ng-template>
+
 
 <app-spinner [condicion]="cargarSpinner"></app-spinner>
 

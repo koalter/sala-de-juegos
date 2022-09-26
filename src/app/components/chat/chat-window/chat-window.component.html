@@ -1,0 +1,13 @@
+<div id="window" class="card border-secondary bg-dark">
+    <header class="card-header text-white d-flex justify-content-between" (click)="cerrarChat()" role="button">Chat <span>X</span></header>
+    <main class="h-100 card-body overflow-auto">
+        <div class="bg-primary w-75 m-1 px-1 rounded-2" *ngFor="let log of chatService.recuperarMensajes()">
+            <h6 class="text-muted">User {{ getTime() }}</h6>
+            <small>{{ log }}</small>
+        </div>
+    </main>
+    <footer class="sticky-bottom input-group p-2 bg-primary">
+        <input id="textarea" type="text" class="form-control" placeholder="Escribe un mensaje aquí" [(ngModel)]="mensaje" (keydown)="onKeyDownHandler($event)">
+        <span class="input-group-text" role="button" (click)="enviarMensaje()">></span>
+    </footer>
+</div>
