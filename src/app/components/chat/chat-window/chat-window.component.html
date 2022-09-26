@@ -1,10 +1,27 @@
 <div id="window" class="card border-secondary bg-dark">
     <header class="card-header text-white d-flex justify-content-between" (click)="cerrarChat()" role="button">Chat <span>X</span></header>
-    <main class="h-100 card-body overflow-auto">
-        <div class="bg-primary w-75 m-1 px-1 rounded-2" *ngFor="let log of chatService.recuperarMensajes()">
-            <h6 class="text-muted">User {{ getTime() }}</h6>
-            <small>{{ log }}</small>
-        </div>
+    <main class="h-100 card-body overflow-auto" #chats [scrollTop]="chats.scrollHeight">
+        <ng-container *ngFor="let log of mensajes">
+            <ng-container *ngIf="log.usuario === getNombreDeUsuario(); then mensajePropio; else mensajeDeTerceros"></ng-container>
+            <ng-template #mensajePropio>
+                <div class="row px-1 my-1">
+                    <div class="col-3"></div>
+                    <div class="bg-info px-1 rounded-2 col-9">
+                        <h6 class="text-dark">{{ log.usuario }} {{ log.tiempo.toLocaleTimeString() }}</h6>
+                        <small>{{ log.mensaje }}</small>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template #mensajeDeTerceros>
+                <div class="row my-1">
+                    <div class="bg-primary m-1 px-1 rounded-2 col-8">
+                        <h6 class="text-muted">{{ log.usuario }} {{ log.tiempo.toLocaleTimeString() }}</h6>
+                        <small>{{ log.mensaje }}</small>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+            </ng-template>
+        </ng-container>
     </main>
     <footer class="sticky-bottom input-group p-2 bg-primary">
         <input id="textarea" type="text" class="form-control" placeholder="Escribe un mensaje aquí" [(ngModel)]="mensaje" (keydown)="onKeyDownHandler($event)">

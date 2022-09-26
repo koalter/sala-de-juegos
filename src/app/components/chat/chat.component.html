@@ -4,5 +4,5 @@
         <span *ngIf="nuevosMensajes" class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-2"><span class="visually-hidden">unread messages</span></span>
     </div>
     
-    <chat-window *ngIf="toggleChat" (toggle)="toggleChat = !toggleChat"></chat-window>
+    <chat-window *ngIf="toggleChat" (toggle)="cerrarChat($event)" (mensajero)="enviarMensaje($event)" [mensajes]="mensajes"></chat-window>
 </div>
