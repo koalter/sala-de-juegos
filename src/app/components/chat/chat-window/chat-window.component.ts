@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { ChatLog } from 'src/app/models/ChatLog';
-import { ChatService } from 'src/app/shared/chat.service';
-import { UsuarioService } from 'src/app/shared/usuario.service';
 
 @Component({
   selector: 'chat-window',
@@ -44,6 +42,10 @@ export class ChatWindowComponent implements OnInit {
 
   getNombreDeUsuario() {
     return this.auth.currentUser?.email;
+  }
+
+  onScrollTop(chats : any) {
+    chats.scrollTop = chats.scrollHeight;
   }
 
 }

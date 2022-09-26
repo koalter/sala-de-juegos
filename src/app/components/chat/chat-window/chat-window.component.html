@@ -1,6 +1,6 @@
 <div id="window" class="card border-secondary bg-dark">
     <header class="card-header text-white d-flex justify-content-between" (click)="cerrarChat()" role="button">Chat <span>X</span></header>
-    <main class="h-100 card-body overflow-auto" #chats [scrollTop]="chats.scrollHeight">
+    <main class=" card-body overflow-auto" #chats [scrollTop]="onScrollTop(chats)">
         <ng-container *ngFor="let log of mensajes">
             <ng-container *ngIf="log.usuario === getNombreDeUsuario(); then mensajePropio; else mensajeDeTerceros"></ng-container>
             <ng-template #mensajePropio>

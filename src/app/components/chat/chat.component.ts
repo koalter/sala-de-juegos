@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Unsubscribe } from '@angular/fire/auth';
-import { collection, Firestore } from '@angular/fire/firestore';
+import { addDoc, collection, Firestore } from '@angular/fire/firestore';
 import { onSnapshot } from '@firebase/firestore';
-import { Subscription } from 'rxjs';
 import { ChatLog } from 'src/app/models/ChatLog';
-import { ChatService } from 'src/app/shared/chat.service';
 
 @Component({
   selector: 'app-chat',
@@ -19,18 +17,18 @@ export class ChatComponent implements OnInit, OnDestroy {
   mensajesLeidos : number;
   mensajes$ : Unsubscribe;
 
-  constructor(private chatService : ChatService,
-    private firestore : Firestore) { }
+  constructor(private firestore : Firestore) { }
 
   ngOnInit(): void {
     this.mensajes$ = onSnapshot(collection(this.firestore, 'chat'), querySnapshot => {
+      const mensajes : ChatLog[] = [];
       querySnapshot.forEach(document => {
         const data = document.data();
-        const pelicula = new ChatLog(data['mensaje'], data['usuario'], data['tiempo'].toDate());
-        this.mensajes.push(pelicula);
+        const log = new ChatLog(data['mensaje'], data['usuario'], data['tiempo'].toDate());
+        mensajes.push(log);
       });
   
-      return this.mensajes.sort((pre, pro) => {
+      this.mensajes = mensajes.sort((pre, pro) => {
         if (pre.tiempo > pro.tiempo) return 1;
         if (pre.tiempo < pro.tiempo) return -1;
         return 0;
@@ -54,7 +52,12 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   enviarMensaje(mensaje : ChatLog) {
-    this.chatService.agregarMensaje(mensaje).catch(err => console.error(err));
+    const docRef = addDoc(collection(this.firestore, 'chat'), {
+      mensaje: mensaje.mensaje,
+      usuario: mensaje.usuario,
+      tiempo: mensaje.tiempo
+    }).then(res => console.log(res))
+    .catch(err => console.error(err));
   }
 
 }
