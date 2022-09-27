@@ -8,6 +8,8 @@ import { AuthErroresComponent } from '../auth-errores/auth-errores.component';
 import { FormsModule } from '@angular/forms';
 import { ChatModule } from '../chat/chat.module';
 
+import { HomeRoutingModule } from './home-routing.module';
+import { JuegosComponent } from '../juegos/juegos.component';
 
 
 @NgModule({
@@ -16,10 +18,12 @@ import { ChatModule } from '../chat/chat.module';
     LoginComponent,
     RegistroComponent,
     SpinnerComponent,
-    AuthErroresComponent
+    AuthErroresComponent,
+    JuegosComponent
   ],
   imports: [
     CommonModule,
+    HomeRoutingModule,
     FormsModule,
     ChatModule
   ]

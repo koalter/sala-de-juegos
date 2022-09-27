@@ -9,7 +9,6 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { QuienSoyComponent } from './components/quien-soy/quien-soy.component';
 import { FormsModule } from '@angular/forms';
-import { HomeModule } from './components/home/home.module';
 
 @NgModule({
   declarations: [
@@ -22,8 +21,7 @@ import { HomeModule } from './components/home/home.module';
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-    HomeModule
+    provideFirestore(() => getFirestore())
   ],
   providers: [],
   bootstrap: [AppComponent]
