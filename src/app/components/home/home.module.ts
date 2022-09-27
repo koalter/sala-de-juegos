@@ -9,7 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { ChatModule } from '../chat/chat.module';
 
 import { HomeRoutingModule } from './home-routing.module';
-import { JuegosComponent } from '../juegos/juegos.component';
+import { JuegosComponent } from './juegos/juegos.component';
+import { BienvenidoComponent } from './bienvenido/bienvenido.component';
+import { AhorcadoComponent } from './ahorcado/ahorcado.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { JuegosComponent } from '../juegos/juegos.component';
     RegistroComponent,
     SpinnerComponent,
     AuthErroresComponent,
-    JuegosComponent
+    JuegosComponent,
+    BienvenidoComponent,
+    AhorcadoComponent
   ],
   imports: [
     CommonModule,
