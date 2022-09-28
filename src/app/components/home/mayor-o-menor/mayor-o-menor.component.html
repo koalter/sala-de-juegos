@@ -1,38 +1,45 @@
 <button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
 <button type="button" (click)="instrucciones = true" class="btn btn-secondary m-2">Instrucciones</button>
-{{valorActual}}
-<div class="">
-    <div class="text-center mb-3 fs-4">
-        <span>Puntos:</span>
-        <span class="ps-1 text-success">{{ puntos }}</span>
-    </div>
-    <div class="row justify-content-center">
-        <div #card class="card border-light rounded-4" style="max-width: 20rem;">
-            <img class="reverso h-100 w-100" src="../../../../assets/cardback.png">
-            <div class="frente h-100 w-100 d-flex align-items-center justify-content-center">
-                <p>{{ valorSiguiente }}</p>
-            </div>
+<div class="row">
+    <div class="text-center col-md-3">
+        <div class="btn btn-outline-primary disabled text-white mt-4">
+            <p>Última carta:</p>
+            <p class="fs-2 text-light">{{valorActual}}</p>
         </div>
     </div>
-    <div class="row justify-content-center">
-        <button (click)="verTarjeta(card, 'mayor')" class="btn btn-light col-sm-4 col-md-2 col-xxl-1 p-4 m-2">Mayor</button>
-        <button (click)="verTarjeta(card, 'menor')" class="btn btn-secondary col-sm-4 col-md-2 col-xxl-1 p-4 m-2">Menor</button>
+    <div class="col-md-9">
+        <div class="text-center mb-3 fs-4">
+            <span>Puntos:</span>
+            <span class="ps-1 text-success">{{ puntos }}</span>
+        </div>
+        <div class="row justify-content-center">
+            <div #card class="naipe" style="max-width: 20rem;">
+                <img class="reverso h-100 w-100" src="../../../../assets/cardback.png">
+                <div class="card border-dark rounded-4 frente h-100 w-100 d-flex align-items-center justify-content-center">
+                    <p>{{ valorSiguiente }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <button (click)="verTarjeta(card, 'mayor')" class="btn btn-light col-sm-4 col-md-2 col-xxl-1 p-4 m-2">Mayor</button>
+            <button (click)="verTarjeta(card, 'menor')" class="btn btn-secondary col-sm-4 col-md-2 col-xxl-1 p-4 m-2">Menor</button>
+        </div>
     </div>
 </div>
 
 <pantalla-victoria [flag]="ganaste" (reintentar)="ngOnInit()"></pantalla-victoria>
 <pantalla-derrota [flag]="perdiste" (reintentar)="ngOnInit()"></pantalla-derrota>
 
-<div *ngIf="false" style="backdrop-filter: brightness(0.4);" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
+<div *ngIf="instrucciones" style="backdrop-filter: brightness(0.4);" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
     <div class="bg-primary pt-4 rounded-4">
         <h2 class="py-2">Cómo jugar Mayor o Menor</h2>
         <div class="row align-items-center">
             <img src="../../../../assets/teemo-shuffle.gif"
                 class="col-sm-4">
             <div class="text text-start col-sm-8">
-                <p class="text-white">Se te asignará una carta al principio del juego.</p>
+                <p class="text-white">Se te asignará una carta, del 1 al 20, al principio del juego.</p>
                 <p class="text-white">Tu tarea es adivinar si la siguiente carta es mayor o menor.</p>
-                <p class="text-white">Por cada acierto ganarás un (1) punto.</p>
+                <p class="text-white">Por cada acierto ganarás un <strong class="text-success">(1)</strong> punto.</p>
                 <p class="text-white">El juego se acaba cuando te equivoques.</p>
                 <p class="text-white">Comenzá y lográ la mayor cantidad de puntos ¡Mucha suerte!</p>
             </div>

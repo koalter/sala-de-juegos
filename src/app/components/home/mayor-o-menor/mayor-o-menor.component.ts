@@ -57,40 +57,36 @@ export class MayorOMenorComponent implements OnInit {
     this.valorSiguiente = this.mazo["naipes"][this.mazo["indice"]];
     obj.style.transform = 'rotateY(180deg)';
     
-    switch (criterio) {
-      case 'mayor':
-        if (this.valorSiguiente < this.valorActual) {
-          setTimeout(() => {
+    setTimeout(() => {
+      obj.style.transform = '';
+      switch (criterio) {
+        case 'mayor':
+          if (this.valorSiguiente < this.valorActual) {
             this.perdiste = true;
-            obj.style.transform = '';
-          }, 1500);
-          return;
-        }
-        this.puntos++;
-        this.valorActual = this.valorSiguiente;
-        break;
-      case 'menor':
-        if (this.valorSiguiente > this.valorActual) {
-          setTimeout(() => {
+            return;
+          }
+          break;
+        case 'menor':
+          if (this.valorSiguiente > this.valorActual) {
             this.perdiste = true;
-            obj.style.transform = '';
-          }, 1500);
-          return;
-        }
-        this.puntos++;
-        this.valorActual = this.valorSiguiente;
-        break;
-      default:
-        obj.style.transform = '';
-        this.perdiste = true;
-        return;
-    }
+            return;
+          }
+          break;
+        default:
+          this.perdiste = true;
+          return;  
+      }
 
-    if (this.mazo["indice"] === this.mazo["naipes"].length - 1) {
-      this.mazo["indice"] = 0;
-      this.mazo["naipes"] = this.mezclar(this.mazo["naipes"]);
-    } else {
-      this.mazo["indice"]++;
-    }
+      this.puntos++;
+      this.valorActual = this.valorSiguiente;
+      
+      if (this.mazo["indice"] === this.mazo["naipes"].length - 1) {
+        this.mazo["indice"] = 0;
+        this.mazo["naipes"] = this.mezclar(this.mazo["naipes"]);
+      } else {
+        this.mazo["indice"]++;
+      }
+    }, 1500);
+    
   }
 }
