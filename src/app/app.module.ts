@@ -7,23 +7,13 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { LoginComponent } from './components/login/login.component';
-import { HomeComponent } from './components/home/home.component';
 import { QuienSoyComponent } from './components/quien-soy/quien-soy.component';
 import { FormsModule } from '@angular/forms';
-import { RegistroComponent } from './components/registro/registro.component';
-import { SpinnerComponent } from './components/spinner/spinner.component';
-import { AuthErroresComponent } from './components/auth-errores/auth-errores.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    HomeComponent,
-    QuienSoyComponent,
-    RegistroComponent,
-    SpinnerComponent,
-    AuthErroresComponent
+    QuienSoyComponent
   ],
   imports: [
     FormsModule,

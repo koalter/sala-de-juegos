@@ -9,18 +9,17 @@
         <button (click)="modoLogin = 'registro'" class="m-2 btn btn-outline-success">Registrarse</button>
     </ng-template>
 </nav>
-<div *ngIf="usuario; else inicio2" class="container-fluid p-5 card border-primary rounded-3 bg-primary">
-    <h1 class="mb-4">Bienvenido a la Sala de Juegos de Lorenzo Cea!</h1>
-    <p class="col-xl-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste ab vel at inventore. Quis assumenda ratione quasi sint sunt odio id autem quisquam cupiditate nihil, maxime explicabo dignissimos possimus aperiam?</p>
-    <div class="row">
-        <button routerLink="/about" class="col-md-2 col-xxl-1 m-2 btn btn-info">Quien Soy</button>
-    </div>
+<div *ngIf="usuario; else inicio2" class="container-fluid p-5 mb-3 card border-primary rounded-3">
+    <router-outlet></router-outlet>
+    <app-chat></app-chat>
 </div>
+
 
 <ng-template #inicio2>
     <app-login (setUsuario)="iniciarSesion($event)" *ngIf="modoLogin === 'login'"></app-login>
     <app-registro (setUsuario)="registrarUsuario($event)" *ngIf="modoLogin === 'registro'"></app-registro>
 </ng-template>
+
 
 <app-spinner [condicion]="cargarSpinner"></app-spinner>
 
