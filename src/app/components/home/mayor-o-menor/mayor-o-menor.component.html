@@ -1,20 +1,30 @@
 <button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
 <button type="button" (click)="instrucciones = true" class="btn btn-secondary m-2">Instrucciones</button>
-<p>mayor-o-menor works!</p>
+<div class="main row justify-content-center">
+    <div class="card border-light rounded-4" style="max-width: 20rem;">
+        <img class="reverso h-100 w-100" src="../../../../assets/cardback.png">
+        <div class="frente h-100 w-100 d-flex align-items-center justify-content-center">
+            <p>{{ valorSiguiente }}</p>
+        </div>
+    </div>
+</div>
 
 <pantalla-victoria [flag]="ganaste" (reintentar)="ngOnInit()"></pantalla-victoria>
 <pantalla-derrota [flag]="perdiste" (reintentar)="ngOnInit()"></pantalla-derrota>
 
-<div *ngIf="instrucciones" style="backdrop-filter: brightness(0.4);" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
-    <div class="bg-primary px-4 pt-4 rounded-4 col-md-6">
-        <h2 class="py-2">Instrucciones del Mayor o Menor</h2>
-        <div class="text-start">
-            <p class="text-white">El objetivo del juego es descubrir la palabra oculta.</p>
-            <p class="text-white">Para esto, deberás utilizar el teclado en pantalla, seleccionando las letras que creas que contiene la palabra oculta.</p>
-            <p class="text-white">Si el caracter seleccionado forma parte de la palabra, se relevarán todas las coincidencias. Caso contrario perderás una vida.</p>
-            <p class="text-white">En cualquier caso, una vez presionada una tecla, se desactivará.</p>
-            <p class="text-white">Iniciarás el juego con siete <strong class="text-light">(7)</strong> vidas. Al llegar a cero <strong class="text-danger">(0)</strong> vidas, o <strong class="text-success">revelar la palabra</strong>, el juego se termina.</p>
-            <p class="text-white">Si ya estás listo, presioná el botón de abajo y ¡Comencemos!</p>
+<div *ngIf="false" style="backdrop-filter: brightness(0.4);" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
+    <div class="bg-primary pt-4 rounded-4">
+        <h2 class="py-2">Cómo jugar Mayor o Menor</h2>
+        <div class="row align-items-center">
+            <img src="../../../../assets/teemo-shuffle.gif"
+                class="col-sm-4">
+            <div class="text text-start col-sm-8">
+                <p class="text-white">Se te asignará una carta al principio del juego.</p>
+                <p class="text-white">Tu tarea es adivinar si la siguiente carta es mayor o menor.</p>
+                <p class="text-white">Por cada acierto ganarás un (1) punto.</p>
+                <p class="text-white">El juego se acaba cuando te equivoques.</p>
+                <p class="text-white">Comenzá y lográ la mayor cantidad de puntos ¡Mucha suerte!</p>
+            </div>
         </div>
         <button class="btn btn-info m-2" (click)="instrucciones = false">Jugar</button>
     </div>
