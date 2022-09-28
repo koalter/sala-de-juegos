@@ -12,6 +12,9 @@ import { HomeRoutingModule } from './home-routing.module';
 import { JuegosComponent } from './juegos/juegos.component';
 import { BienvenidoComponent } from './bienvenido/bienvenido.component';
 import { AhorcadoComponent } from './ahorcado/ahorcado.component';
+import { MayorOMenorComponent } from './mayor-o-menor/mayor-o-menor.component';
+import { PantallaVictoriaComponent } from './pantalla-victoria/pantalla-victoria.component';
+import { PantallaDerrotaComponent } from './pantalla-derrota/pantalla-derrota.component';
 
 
 @NgModule({
@@ -23,7 +26,10 @@ import { AhorcadoComponent } from './ahorcado/ahorcado.component';
     AuthErroresComponent,
     JuegosComponent,
     BienvenidoComponent,
-    AhorcadoComponent
+    AhorcadoComponent,
+    MayorOMenorComponent,
+    PantallaVictoriaComponent,
+    PantallaDerrotaComponent
   ],
   imports: [
     CommonModule,

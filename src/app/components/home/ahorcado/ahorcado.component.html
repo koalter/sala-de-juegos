@@ -45,23 +45,8 @@
     </div>
 </div>
 
-<div *ngIf="ganaste" style="backdrop-filter: brightness(0.4);" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
-    <div class="bg-primary px-4 pt-4 rounded-4">
-        <img src="../../../../assets/cool-asol.gif" class="w-50">
-        <p class="text-success fs-2 py-2">¡Ganaste!</p>
-        <button class="btn btn-success m-2" (click)="ngOnInit()">Jugá de nuevo</button>
-        <button class="btn btn-info m-2" routerLink="" >Volver al menú principal</button>
-    </div>
-</div>
-
-<div *ngIf="perdiste" style="backdrop-filter: brightness(0.4);" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
-    <div class="bg-primary px-4 pt-4 rounded-4">
-        <img src="../../../../assets/im-out-oh-no.gif" class="w-50">
-        <p class="fs-2 py-2">¡Perdiste!</p>
-        <button class="btn btn-danger m-2" (click)="ngOnInit()">Intentar de nuevo</button>
-        <button class="btn btn-info m-2" routerLink="" >Volver al menú principal</button>
-    </div>
-</div>
+<pantalla-victoria [flag]="ganaste" (reintentar)="ngOnInit()"></pantalla-victoria>
+<pantalla-derrota [flag]="perdiste" (reintentar)="ngOnInit()"></pantalla-derrota>
 
 <div *ngIf="instrucciones" style="backdrop-filter: brightness(0.4);" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
     <div class="bg-primary px-4 pt-4 rounded-4 col-md-6">

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AhorcadoComponent } from './ahorcado/ahorcado.component';
 import { BienvenidoComponent } from './bienvenido/bienvenido.component';
 import { HomeComponent } from './home.component';
+import { MayorOMenorComponent } from './mayor-o-menor/mayor-o-menor.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path: 'ahorcado',
         component: AhorcadoComponent
+      },
+      {
+        path: 'mayor-o-menor',
+        component: MayorOMenorComponent
       }
     ]
   }

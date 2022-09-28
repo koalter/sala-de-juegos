@@ -1,0 +1,21 @@
+<button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
+<button type="button" (click)="instrucciones = true" class="btn btn-secondary m-2">Instrucciones</button>
+<p>mayor-o-menor works!</p>
+
+<pantalla-victoria [flag]="ganaste" (reintentar)="ngOnInit()"></pantalla-victoria>
+<pantalla-derrota [flag]="perdiste" (reintentar)="ngOnInit()"></pantalla-derrota>
+
+<div *ngIf="instrucciones" style="backdrop-filter: brightness(0.4);" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
+    <div class="bg-primary px-4 pt-4 rounded-4 col-md-6">
+        <h2 class="py-2">Instrucciones del Mayor o Menor</h2>
+        <div class="text-start">
+            <p class="text-white">El objetivo del juego es descubrir la palabra oculta.</p>
+            <p class="text-white">Para esto, deberás utilizar el teclado en pantalla, seleccionando las letras que creas que contiene la palabra oculta.</p>
+            <p class="text-white">Si el caracter seleccionado forma parte de la palabra, se relevarán todas las coincidencias. Caso contrario perderás una vida.</p>
+            <p class="text-white">En cualquier caso, una vez presionada una tecla, se desactivará.</p>
+            <p class="text-white">Iniciarás el juego con siete <strong class="text-light">(7)</strong> vidas. Al llegar a cero <strong class="text-danger">(0)</strong> vidas, o <strong class="text-success">revelar la palabra</strong>, el juego se termina.</p>
+            <p class="text-white">Si ya estás listo, presioná el botón de abajo y ¡Comencemos!</p>
+        </div>
+        <button class="btn btn-info m-2" (click)="instrucciones = false">Jugar</button>
+    </div>
+</div>
