@@ -11,23 +11,31 @@ export class MayorOMenorComponent implements OnInit {
   ganaste : boolean = false;
   perdiste : boolean = false;
   valorActual : number = 0;
-  valorSiguiente : number = 1;
+  valorSiguiente : number = 0;
+  puntos : number = 0;
 
-  mazo : number[] = this.llenarMazo();
+  mazo : {} = {
+    indice: 0,
+    naipes: []
+  };
 
   constructor() { }
 
   ngOnInit(): void {
-    this.mazo = this.mezclar(this.mazo);
+    this.mazo["naipes"] = this.llenarMazo();
+    this.mazo["indice"] = 0;
+    this.valorActual = this.mazo["naipes"][this.mazo["indice"]];
+    this.mazo["indice"]++;
+    this.perdiste = false;
+    this.puntos = 0;
   }
 
   private llenarMazo() : number[] {
-    return [
-      1,2,3,4,5,6,7,8,9,10,11,12,13,
-      1,2,3,4,5,6,7,8,9,10,11,12,13,
-      1,2,3,4,5,6,7,8,9,10,11,12,13,
-      1,2,3,4,5,6,7,8,9,10,11,12,13
-    ];
+    const arr : number[] = []
+    for (let i = 1; i <= 20 ; i++) {
+      arr.push(i);
+    }
+    return this.mezclar(arr);
   }
 
   private mezclar(arr : number[]) {
@@ -43,5 +51,46 @@ export class MayorOMenorComponent implements OnInit {
     }
 
     return arr;
+  }
+
+  verTarjeta(obj : HTMLElement, criterio : string) {
+    this.valorSiguiente = this.mazo["naipes"][this.mazo["indice"]];
+    obj.style.transform = 'rotateY(180deg)';
+    
+    switch (criterio) {
+      case 'mayor':
+        if (this.valorSiguiente < this.valorActual) {
+          setTimeout(() => {
+            this.perdiste = true;
+            obj.style.transform = '';
+          }, 1500);
+          return;
+        }
+        this.puntos++;
+        this.valorActual = this.valorSiguiente;
+        break;
+      case 'menor':
+        if (this.valorSiguiente > this.valorActual) {
+          setTimeout(() => {
+            this.perdiste = true;
+            obj.style.transform = '';
+          }, 1500);
+          return;
+        }
+        this.puntos++;
+        this.valorActual = this.valorSiguiente;
+        break;
+      default:
+        obj.style.transform = '';
+        this.perdiste = true;
+        return;
+    }
+
+    if (this.mazo["indice"] === this.mazo["naipes"].length - 1) {
+      this.mazo["indice"] = 0;
+      this.mazo["naipes"] = this.mezclar(this.mazo["naipes"]);
+    } else {
+      this.mazo["indice"]++;
+    }
   }
 }

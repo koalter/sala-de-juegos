@@ -17,7 +17,4 @@
     transform-style: preserve-3d;
     transition: transform 0.6s;
     padding: 0;
-    :hover & {
-      transform: rotateY(180deg);
-    }  
-  }
+}

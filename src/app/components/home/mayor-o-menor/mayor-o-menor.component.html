@@ -1,11 +1,22 @@
 <button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
 <button type="button" (click)="instrucciones = true" class="btn btn-secondary m-2">Instrucciones</button>
-<div class="main row justify-content-center">
-    <div class="card border-light rounded-4" style="max-width: 20rem;">
-        <img class="reverso h-100 w-100" src="../../../../assets/cardback.png">
-        <div class="frente h-100 w-100 d-flex align-items-center justify-content-center">
-            <p>{{ valorSiguiente }}</p>
+{{valorActual}}
+<div class="">
+    <div class="text-center mb-3 fs-4">
+        <span>Puntos:</span>
+        <span class="ps-1 text-success">{{ puntos }}</span>
+    </div>
+    <div class="row justify-content-center">
+        <div #card class="card border-light rounded-4" style="max-width: 20rem;">
+            <img class="reverso h-100 w-100" src="../../../../assets/cardback.png">
+            <div class="frente h-100 w-100 d-flex align-items-center justify-content-center">
+                <p>{{ valorSiguiente }}</p>
+            </div>
         </div>
+    </div>
+    <div class="row justify-content-center">
+        <button (click)="verTarjeta(card, 'mayor')" class="btn btn-light col-sm-4 col-md-2 col-xxl-1 p-4 m-2">Mayor</button>
+        <button (click)="verTarjeta(card, 'menor')" class="btn btn-secondary col-sm-4 col-md-2 col-xxl-1 p-4 m-2">Menor</button>
     </div>
 </div>
 
