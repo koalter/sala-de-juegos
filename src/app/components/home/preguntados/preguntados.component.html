@@ -1,11 +1,28 @@
 <button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
 <button type="button" (click)="instrucciones = true" class="btn btn-secondary m-2">Instrucciones</button>
-<div class="text-center">
-    <div class="categorias justify-content-evenly">
-        <button class="m-2 p-5 btn btn-info">Ciencia</button>
-        <button class="m-2 p-5 btn btn-warning">Historia</button>
-        <button class="m-2 p-5 btn btn-success">Deportes</button>
-    </div>
+<div class="container">
+    <ng-container *ngIf="pregunta; then juego; else categorias"></ng-container>
+    <ng-template #categorias>
+        <div class="text-center justify-content-evenly mb-3">
+            <button (click)="generarPregunta('ciencia')" class="m-2 p-5 btn btn-info">Ciencia</button>
+            <button (click)="generarPregunta('historia')" class="m-2 p-5 btn btn-warning">Historia</button>
+            <button (click)="generarPregunta('deportes')" class="m-2 p-5 btn btn-success">Deportes</button>
+        </div>
+    </ng-template>
+
+    <ng-template #juego>
+        <div class="card border-light m-auto col-lg-5">
+            <h3 class="card-header text-capitalize">{{ pregunta["categoria"] }}</h3>
+            <img [src]="imagenPregunta" class="card-img-top">
+            <div class="card-body">
+                <p class="card-text">{{ pregunta["pregunta"] }}</p>
+                <button class="col-12 my-1 btn btn-primary">{{ pregunta["respuestas"][0]["texto"] }}</button>
+                <button class="col-12 my-1 btn btn-info">{{ pregunta["respuestas"][1]["texto"] }}</button>
+                <button class="col-12 my-1 btn btn-secondary">{{ pregunta["respuestas"][2]["texto"] }}</button>
+                <button class="col-12 my-1 btn btn-warning">{{ pregunta["respuestas"][3]["texto"] }}</button>
+            </div>
+        </div>
+    </ng-template>
 </div>
 
 <pantalla-victoria [flag]="ganaste" (reintentar)="ngOnInit()"></pantalla-victoria>
@@ -24,3 +41,5 @@
         <button class="btn btn-info m-2" (click)="instrucciones = false">Jugar</button>
     </div>
 </div>
+
+<app-spinner [condicion]="cargarSpinner"></app-spinner>
