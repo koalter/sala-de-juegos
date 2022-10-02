@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, Firestore, getDocs, query, where } from '@angular/fire/firestore';
 import { createClient } from 'pexels';
+import { Preguntados } from '../models/preguntados';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +12,16 @@ export class PreguntadosService {
 
   constructor(private firestore : Firestore) { }
 
-  async generarPregunta(tema : string) {
+  async generarPregunta() {
     try {
-      const q = query(collection(this.firestore, "preguntados"), where("categoria", "==", tema.toLowerCase()));
+      const q = query(collection(this.firestore, "preguntados"));
       const querySnapshot = await getDocs(q);
       const index = Math.floor(Math.random() * querySnapshot.size);
       
       const result = querySnapshot.docs[index].data();
       result["respuestas"] = this.mezclarRespuestas(result["respuestas"]);
 
-      return result;
+      return new Preguntados(result["pregunta"], result["categoria"], result["imagen"], result["respuestas"]);
 
     } catch (err) {
       addDoc(collection(this.firestore, 'logErrores'), { error: err });

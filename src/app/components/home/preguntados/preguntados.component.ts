@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Preguntados } from 'src/app/models/preguntados';
 import { PreguntadosService } from 'src/app/shared/preguntados.service';
 
 @Component({
@@ -9,10 +10,10 @@ import { PreguntadosService } from 'src/app/shared/preguntados.service';
 export class PreguntadosComponent implements OnInit {
 
   cargarSpinner : boolean = false;
-  instrucciones : boolean = false;
+  instrucciones : boolean = true;
   ganaste : boolean = false;
   perdiste : boolean = false;
-  pregunta : {};
+  pregunta : Preguntados;
   imagenPregunta : string = "";
 
   constructor(private service : PreguntadosService) { }
@@ -20,16 +21,34 @@ export class PreguntadosComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  generarPregunta(tema : string) {
+  comenzar() {
+    this.instrucciones = false;
+    if (!this.pregunta) {
+      this.generarPregunta();
+    }
+  }
+
+  generarPregunta() {
     this.cargarSpinner = true;
-    this.service.generarPregunta(tema)
+    this.ganaste = false;
+    this.perdiste = false;
+
+    this.service.generarPregunta()
     .then(res => {
       this.pregunta = res;
-      this.service.obtenerImagen(res["imagen"])
+      this.service.obtenerImagen(res.imagen)
       .then(foto => this.imagenPregunta = foto);
     })
     .catch(err => console.log(err))
     .finally(() => this.cargarSpinner = false);
+  }
+
+  responder(index : number) {
+    if (this.pregunta.respuestas[index].solucion) {
+      this.ganaste = true;
+    } else {
+      this.perdiste = true;
+    }
   }
 
 }
