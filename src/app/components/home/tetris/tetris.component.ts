@@ -21,13 +21,12 @@ export class TetrisComponent implements OnInit {
 
   iniciarRenderizado(canvas : HTMLCanvasElement) {
     this.instrucciones = false;
-
+    this.perdiste = false;
     this.canvas2dContext = canvas.getContext('2d');
-    console.log(this.canvas2dContext);
 
     if (this.canvas2dContext) {
       this.canvas2dContext.canvas.height = this.canvas2dContext.canvas.width * 2;
-      this.renderTabla(this.canvas2dContext);
+      this.mappearTabla(this.canvas2dContext);
       this.nuevaFigura(this.canvas2dContext);
     }
   }
@@ -42,13 +41,21 @@ export class TetrisComponent implements OnInit {
     this.renderFigura(context, this.figura);
   }
 
-  renderTabla(context : CanvasRenderingContext2D) : void {
+  mappearTabla(context : CanvasRenderingContext2D) : void {
     this.mapping = [];
     for (let fila = 0; fila < 20; fila++) {
       this.mapping.push([]);
       for (let columna = 0; columna < 10; columna++) {
         this.mapping[fila].push('');
-        this.renderCuadro(context, columna, fila, 'transparent')
+        this.renderCuadro(context, columna, fila, this.mapping[fila][columna]);
+      }
+    }
+  }
+
+  renderTabla(context : CanvasRenderingContext2D) : void {
+    for (let fila = 0; fila < 20; fila++) {
+      for (let columna = 0; columna < 10; columna++) {
+        this.renderCuadro(context, columna, fila, this.mapping[fila][columna]);
       }
     }
   }
@@ -60,7 +67,7 @@ export class TetrisComponent implements OnInit {
       for (let columna = 0; columna < coordenadasActivas[fila].length; columna++) {
         if (coordenadasActivas[fila][columna]) {
           if (clear) {
-            this.limpiarCuadro(context, figura.ejeX + columna, figura.ejeY + fila);
+            this.renderCuadro(context, figura.ejeX + columna, figura.ejeY + fila);
           } else {
             this.renderCuadro(context, figura.ejeX + columna, figura.ejeY + fila, figura.color);
           } 
@@ -69,37 +76,40 @@ export class TetrisComponent implements OnInit {
     }
   }
   
-  private renderCuadro(context : CanvasRenderingContext2D, ejeX : number, ejeY : number, color : string) : void {
+  private renderCuadro(context : CanvasRenderingContext2D, ejeX : number, ejeY : number, color : string = '') : void {
     const width = context.canvas.width * 0.1;
     const height = context.canvas.height * 0.05;
 
-    context.fillStyle = color;
-    context.fillRect(ejeX*width, ejeY*height, width, height);
-    // context.strokeStyle = "black";
-    // context.strokeRect(ejeX*width, ejeY*height, width, height);
+    if (color) {
+      context.fillStyle = color;
+      context.fillRect(ejeX*width, ejeY*height, width, height);
+      context.strokeStyle = "black";
+      context.strokeRect(ejeX*width, ejeY*height, width, height);
+    } else {
+      context.clearRect(ejeX*width-1, ejeY*height-1, width+2, height+2);
+    }
   }
 
-  private limpiarCuadro(context : CanvasRenderingContext2D, ejeX : number, ejeY : number) : void {
-    const width = context.canvas.width * 0.1;
-    const height = context.canvas.height * 0.05;
-
-    context.clearRect(ejeX*width, ejeY*height, width, height);
-  }
-
-  moverFiguraAbajo(context : CanvasRenderingContext2D, figura : Tetromino) {
-    if (!this.detectarColision(context, figura, 0, 1)) {
+  moverFiguraAbajo(context : CanvasRenderingContext2D, figura : Tetromino) : boolean {
+    let result : boolean = false;
+    if (!this.detectarColision(figura, 0, 1)) {
+      result = true;
       this.renderFigura(context, figura, true);
       figura.ejeY++;
       this.renderFigura(context, figura);
     } else {
       this.fijar();
-      this.limpiarFilas();
+      if (this.limpiarFilas()) {
+        this.renderTabla(context);
+      }
       this.nuevaFigura(context);
     }
+
+    return result;
   }
 
   moverFiguraIzquierda(context : CanvasRenderingContext2D, figura : Tetromino) {
-    if (!this.detectarColision(context, figura, -1, 0)) {
+    if (!this.detectarColision(figura, -1, 0)) {
       this.renderFigura(context, figura, true);
       figura.ejeX--;
       this.renderFigura(context, figura);
@@ -107,14 +117,14 @@ export class TetrisComponent implements OnInit {
   }
 
   moverFiguraDerecha(context : CanvasRenderingContext2D, figura : Tetromino) {
-    if (!this.detectarColision(context, figura, 1, 0)) {
+    if (!this.detectarColision(figura, 1, 0)) {
       this.renderFigura(context, figura, true);
       figura.ejeX++;
       this.renderFigura(context, figura);
     }
   }
 
-  detectarColision(context : CanvasRenderingContext2D, figura : Tetromino, offsetX : number, offsetY : number) : boolean {
+  detectarColision(figura : Tetromino, offsetX : number, offsetY : number) : boolean {
     for (let fila = 0; fila < figura.coordenadas[figura.posicion].length; fila++) 
     {
       for (let columna = 0; columna < figura.coordenadas[figura.posicion][fila].length; columna++) 
@@ -143,34 +153,57 @@ export class TetrisComponent implements OnInit {
     for (let fila = 0; fila < coordenadasActivas.length; fila++) {
       for (let columna = 0; columna < coordenadasActivas[fila].length; columna++) {
         if (coordenadasActivas[fila][columna]) {
+          if (this.figura.ejeY + fila < 0) {
+            this.perdiste = true;
+            return;
+          }
           this.mapping[this.figura.ejeY + fila][this.figura.ejeX + columna] = this.figura.color;
         }
       }
     }
   }
 
-  private limpiarFilas() : void {
-    for (let fila = this.mapping.length - 1; fila > 0; fila--) {
+  private limpiarFilas() : boolean {
+    let resultado = false;
+
+    for (let fila = 0; fila < this.mapping.length; fila++) {
       if (this.mapping[fila].every(celda => celda)) { 
-        this.mapping[fila].fill('');
-      }
-      if (this.mapping[fila].every(celda => !celda)) {
-        let temp = (this.mapping[fila-1] as any[]).map(e => e);
-        this.mapping[fila-1] = this.mapping[fila];
-        this.mapping[fila] = temp;
+        resultado = true;
+        // sumar puntos
+        this.mapping.splice(fila, 1);
+        this.mapping.unshift(['', '', '', '', '', '', '', '', '', '']);
       }
     }
-    console.log(this.mapping);
+
+    return resultado;
   }
 
   girarFigura(context : CanvasRenderingContext2D, figura : Tetromino) {
-    this.renderFigura(context, figura, true);
-    if (figura.posicion >= figura.coordenadas.length - 1) {
-      figura.posicion = 0;
-    } else {
-      figura.posicion++;
+    let posicionActual = figura.posicion;
+    let ejeXActual = figura.ejeX;
+    let nuevoEjeX : number = figura.ejeX;
+    figura.posicion = (figura.posicion + 1) % figura.coordenadas.length;
+    
+    if (this.detectarColision(figura, 0, 0)) {
+      if (figura.ejeX > 10/2) {
+        figura.ejeX -= 1;
+      } else {
+        figura.ejeX = 0;
+      }
+      nuevoEjeX = figura.ejeX;
     }
-    this.renderFigura(context, figura);
+    if (!this.detectarColision(figura, 0, 0)) {
+      figura.ejeX = ejeXActual;
+      figura.posicion = posicionActual;
+      this.renderFigura(context, figura, true);
+      figura.ejeX = nuevoEjeX;
+      figura.posicion = (figura.posicion + 1) % figura.coordenadas.length;
+      this.renderFigura(context, figura);
+    } else {
+      figura.posicion = posicionActual;
+      figura.ejeX = ejeXActual;
+    }
+    
   }
 
   moverIzquierda(context : CanvasRenderingContext2D | null) : void {
@@ -194,6 +227,12 @@ export class TetrisComponent implements OnInit {
   girar(context : CanvasRenderingContext2D | null) : void {
     if (context) {
       this.girarFigura(context, this.figura);
+    }
+  }
+
+  tirar(context : CanvasRenderingContext2D | null) {
+    if (context) {
+      while (this.moverFiguraAbajo(context, this.figura)) {}
     }
   }
 

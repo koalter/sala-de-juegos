@@ -12,21 +12,23 @@
         </div>
         <div class="row">
             <button (click)="girar(canvas2dContext)" class="btn btn-info m-2 fs-3 col-3">&circlearrowleft;</button>
-            <button class="btn btn-danger m-2 fs-3 col-3">&DownArrowBar;</button>
+            <button (click)="tirar(canvas2dContext)" class="btn btn-danger m-2 fs-3 col-3">&DownArrowBar;</button>
         </div>
     </div>
 </div>
+
+<pantalla-derrota [flag]="perdiste" (reintentar)="iniciarRenderizado(canvas)"></pantalla-derrota>
 
 <div *ngIf="instrucciones" style="backdrop-filter: brightness(0.4);" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
     <div class="bg-primary px-4 pt-4 rounded-4 col-md-6">
         <h2 class="py-2">Instrucciones del Tetris</h2>
         <div class="text-start">
-            <p class="text-white">El objetivo del juego es descubrir la palabra oculta.</p>
-            <p class="text-white">Para esto, deberás utilizar el teclado en pantalla, seleccionando las letras que creas que contiene la palabra oculta.</p>
-            <p class="text-white">Si el caracter seleccionado forma parte de la palabra, se relevarán todas las coincidencias. Caso contrario perderás una vida.</p>
-            <p class="text-white">En cualquier caso, una vez presionada una tecla, se desactivará.</p>
-            <p class="text-white">Iniciarás el juego con siete <strong class="text-light">(7)</strong> vidas. Al llegar a cero <strong class="text-danger">(0)</strong> vidas, o <strong class="text-success">revelar la palabra</strong>, el juego se termina.</p>
-            <p class="text-white">Si ya estás listo, presioná el botón de abajo y ¡Comencemos!</p>
+            <p class="text-white">El objetivo es formar lineas con los distintos bloques que recibas.</p>
+            <p class="text-white">Mové el bloque con los botones de flechas púrpuras.</p>
+            <p class="text-white">El botón azul gira el bloque.</p>
+            <p class="text-white">El botón rojo suelta el bloque hasta el fondo.</p>
+            <p class="text-white">Cada vez que formes una linea, esta desaparecerá y ganarás puntos.</p>
+            <p class="text-white">El juego termina cuando los bloques se hayan acumulado tanto que no puedas generar uno nuevo.</p>
         </div>
         <button class="btn btn-info m-2" (click)="iniciarRenderizado(canvas)">Jugar</button>
     </div>
