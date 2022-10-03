@@ -1,0 +1,34 @@
+<button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
+<button type="button" (click)="instrucciones = true" class="btn btn-secondary m-2">Instrucciones</button>
+<div class="container">
+    <div *ngIf="pregunta" class="card border-light m-auto col-lg-5">
+        <h3 class="card-header text-capitalize">{{ pregunta["categoria"] }}</h3>
+        <img [src]="imagenPregunta" class="card-img-top">
+        <div class="card-body">
+            <p class="card-text">{{ pregunta["pregunta"] }}</p>
+            <button (click)="responder(0)" class="col-12 my-1 btn btn-primary">{{ pregunta["respuestas"][0]["texto"] }}</button>
+            <button (click)="responder(1)" class="col-12 my-1 btn btn-info">{{ pregunta["respuestas"][1]["texto"] }}</button>
+            <button (click)="responder(2)" class="col-12 my-1 btn btn-secondary">{{ pregunta["respuestas"][2]["texto"] }}</button>
+            <button (click)="responder(3)" class="col-12 my-1 btn btn-warning">{{ pregunta["respuestas"][3]["texto"] }}</button>
+        </div>
+    </div>
+</div>
+
+<pantalla-victoria [flag]="ganaste" (reintentar)="generarPregunta()"></pantalla-victoria>
+<pantalla-derrota [flag]="perdiste" (reintentar)="generarPregunta()"></pantalla-derrota>
+
+<div *ngIf="instrucciones" style="backdrop-filter: brightness(0.4);" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
+    <div class="bg-primary px-4 pt-4 rounded-4 col-md-6">
+        <h2 class="py-2">Instrucciones del Consultados</h2>
+        <div class="text-start">
+            <p class="text-white">El juego es simple.</p>
+            <p class="text-white">Se te hará una pregunta aleatoria de alguna de estas categorías:</p>
+            <p class="text-white">Deportes, ciencia, historia.</p>
+            <p class="text-white">Deberás elegir entre cuatro (4) respuestas la que sea correcta.</p>
+            <p class="text-white">Presioná el botón de abajo para comenzar.</p>
+        </div>
+        <button class="btn btn-info m-2" (click)="comenzar()">Jugar</button>
+    </div>
+</div>
+
+<app-spinner [condicion]="cargarSpinner"></app-spinner>

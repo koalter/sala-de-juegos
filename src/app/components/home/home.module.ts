@@ -15,6 +15,8 @@ import { AhorcadoComponent } from './ahorcado/ahorcado.component';
 import { MayorOMenorComponent } from './mayor-o-menor/mayor-o-menor.component';
 import { PantallaVictoriaComponent } from './pantalla-victoria/pantalla-victoria.component';
 import { PantallaDerrotaComponent } from './pantalla-derrota/pantalla-derrota.component';
+import { PreguntadosComponent } from './preguntados/preguntados.component';
+import { TetrisComponent } from './tetris/tetris.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { PantallaDerrotaComponent } from './pantalla-derrota/pantalla-derrota.co
     AhorcadoComponent,
     MayorOMenorComponent,
     PantallaVictoriaComponent,
-    PantallaDerrotaComponent
+    PantallaDerrotaComponent,
+    PreguntadosComponent,
+    TetrisComponent
   ],
   imports: [
     CommonModule,

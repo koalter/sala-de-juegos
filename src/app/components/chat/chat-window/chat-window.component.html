@@ -1,6 +1,6 @@
 <div id="window" class="card border-secondary bg-dark">
     <header class="card-header text-white d-flex justify-content-between" (click)="cerrarChat()" role="button">Chat <span>X</span></header>
-    <main class=" card-body overflow-auto" #chats [scrollTop]="onScrollTop(chats)">
+    <main class="card-body scrollbar" #chats [scrollTop]="onScrollTop(chats)">
         <ng-container *ngFor="let log of mensajes">
             <ng-container *ngIf="log.usuario === getNombreDeUsuario(); then mensajePropio; else mensajeDeTerceros"></ng-container>
             <ng-template #mensajePropio>
@@ -25,6 +25,6 @@
     </main>
     <footer class="sticky-bottom input-group p-2 bg-primary">
         <input id="textarea" type="text" class="form-control" placeholder="Escribe un mensaje aquí" [(ngModel)]="mensaje" (keydown)="onKeyDownHandler($event)">
-        <span class="input-group-text" role="button" (click)="enviarMensaje()">></span>
+        <span class="input-group-text" role="button" (click)="enviarMensaje()">&hookleftarrow;</span>
     </footer>
 </div>

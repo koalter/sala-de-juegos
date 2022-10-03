@@ -7,4 +7,25 @@
 body {
     min-height: 100vh;
     font-family: 'Roboto Mono';
+    overflow: overlay;
+}
+
+* {
+    &:hover::-webkit-scrollbar-thumb {
+        background-color: $primary;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 100vw;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+
+    &:hover {
+        background-color: $primary;
+    }
 }

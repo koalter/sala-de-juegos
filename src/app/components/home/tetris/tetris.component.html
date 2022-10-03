@@ -1,0 +1,41 @@
+<button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
+<button type="button" (click)="instrucciones = true" class="btn btn-secondary m-2">Instrucciones</button>
+<div class="container d-flex justify-content-center">
+    <div>
+        <div class="text-center mb-3 fs-4">
+            <span>Puntos:</span>
+            <span class="ps-1 text-success">{{ this.puntos }}</span>
+        </div>
+        <div class="card border-primary p-0" style="max-width: 300px;">
+            <canvas #canvas class="w-100"></canvas>
+        </div>
+        <div>
+            <div class="text-center">
+                <button (click)="moverIzquierda(canvas2dContext)" class="btn btn-primary m-2 fs-3 col-3">&LeftArrow;</button>
+                <button (click)="moverAbajo(canvas2dContext)" class="btn btn-primary m-2 fs-3 col-3">&DownArrow;</button>
+                <button (click)="moverDerecha(canvas2dContext)" class="btn btn-primary m-2 fs-3 col-3">&RightArrow;</button>
+            </div>
+            <div class="text-center">
+                <button (click)="girar(canvas2dContext)" class="btn btn-info m-2 fs-3 col-5">&circlearrowleft;</button>
+                <button (click)="tirar(canvas2dContext)" class="btn btn-danger m-2 fs-3 col-5">&DownArrowBar;</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<pantalla-derrota [flag]="perdiste" (reintentar)="iniciarRenderizado(canvas)"></pantalla-derrota>
+
+<div *ngIf="instrucciones" style="backdrop-filter: brightness(0.4);" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
+    <div class="bg-primary px-4 pt-4 rounded-4 col-md-6">
+        <h2 class="py-2">Instrucciones del Tetris</h2>
+        <div class="text-start">
+            <p class="text-white">El objetivo es formar lineas con los distintos bloques que recibas.</p>
+            <p class="text-white">Mové el bloque con los botones de flechas púrpuras.</p>
+            <p class="text-white">El botón azul gira el bloque.</p>
+            <p class="text-white">El botón rojo suelta el bloque hasta el fondo.</p>
+            <p class="text-white">Cada vez que formes una linea, esta desaparecerá y ganarás puntos.</p>
+            <p class="text-white">El juego termina cuando los bloques se hayan acumulado tanto que no puedas generar uno nuevo.</p>
+        </div>
+        <button class="btn btn-info m-2" (click)="iniciarRenderizado(canvas)">Jugar</button>
+    </div>
+</div>
