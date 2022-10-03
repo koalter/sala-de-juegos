@@ -8,5 +8,6 @@ export const environment = {
     messagingSenderId: '10086412169',
     measurementId: 'G-MTJYP3Z925',
   },
-  production: true
+  production: true,
+  pexelsApiKey: '563492ad6f91700001000001f8d74e5d0fe04f7cb8066842523b385f'
 };
