@@ -89,7 +89,7 @@ export class Tetromino extends Pieza {
         
         this.posicion = 0;
         this.ejeX = 3;
-        this.ejeY = -2;
+        this.ejeY = 0;
     }
 }
 

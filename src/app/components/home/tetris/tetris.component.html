@@ -1,18 +1,24 @@
 <button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
 <button type="button" (click)="instrucciones = true" class="btn btn-secondary m-2">Instrucciones</button>
-<div class="container row">
-    <div class="card border-primary p-0 col-lg-6" style="max-width: 300px;">
-        <canvas #canvas class="w-100"></canvas>
-    </div>
-    <div class="col-lg-6">
-        <div class="row">
-            <button (click)="moverIzquierda(canvas2dContext)" class="btn btn-primary m-2 fs-3 col-3">&LeftArrow;</button>
-            <button (click)="moverAbajo(canvas2dContext)" class="btn btn-primary m-2 fs-3 col-3">&DownArrow;</button>
-            <button (click)="moverDerecha(canvas2dContext)" class="btn btn-primary m-2 fs-3 col-3">&RightArrow;</button>
+<div class="container d-flex justify-content-center">
+    <div>
+        <div class="text-center mb-3 fs-4">
+            <span>Puntos:</span>
+            <span class="ps-1 text-success">{{ this.puntos }}</span>
         </div>
-        <div class="row">
-            <button (click)="girar(canvas2dContext)" class="btn btn-info m-2 fs-3 col-3">&circlearrowleft;</button>
-            <button (click)="tirar(canvas2dContext)" class="btn btn-danger m-2 fs-3 col-3">&DownArrowBar;</button>
+        <div class="card border-primary p-0" style="max-width: 300px;">
+            <canvas #canvas class="w-100"></canvas>
+        </div>
+        <div>
+            <div class="text-center">
+                <button (click)="moverIzquierda(canvas2dContext)" class="btn btn-primary m-2 fs-3 col-3">&LeftArrow;</button>
+                <button (click)="moverAbajo(canvas2dContext)" class="btn btn-primary m-2 fs-3 col-3">&DownArrow;</button>
+                <button (click)="moverDerecha(canvas2dContext)" class="btn btn-primary m-2 fs-3 col-3">&RightArrow;</button>
+            </div>
+            <div class="text-center">
+                <button (click)="girar(canvas2dContext)" class="btn btn-info m-2 fs-3 col-5">&circlearrowleft;</button>
+                <button (click)="tirar(canvas2dContext)" class="btn btn-danger m-2 fs-3 col-5">&DownArrowBar;</button>
+            </div>
         </div>
     </div>
 </div>
