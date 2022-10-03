@@ -5,6 +5,7 @@ import { BienvenidoComponent } from './bienvenido/bienvenido.component';
 import { HomeComponent } from './home.component';
 import { MayorOMenorComponent } from './mayor-o-menor/mayor-o-menor.component';
 import { PreguntadosComponent } from './preguntados/preguntados.component';
+import { TetrisComponent } from './tetris/tetris.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: 'consultados',
         component: PreguntadosComponent
+      },
+      {
+        path: 'tetris',
+        component: TetrisComponent
       }
     ]
   }

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, Firestore, getDocs, query, where } from '@angular/fire/firestore';
+import { addDoc, collection, Firestore, getDocs, query } from '@angular/fire/firestore';
 import { createClient } from 'pexels';
-import { Preguntados } from '../models/preguntados';
+import { environment } from '../../environments/environment';
+import { Preguntados } from '../models/Preguntados';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PreguntadosService {
 
-  private _apiClient = createClient('563492ad6f91700001000001f8d74e5d0fe04f7cb8066842523b385f');
+  private _apiClient = createClient(environment.pexelsApiKey);
 
   constructor(private firestore : Firestore) { }
 

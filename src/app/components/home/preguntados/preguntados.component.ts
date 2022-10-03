@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Preguntados } from 'src/app/models/preguntados';
-import { PreguntadosService } from 'src/app/shared/preguntados.service';
+import { Preguntados } from '../../../models/Preguntados';
+import { PreguntadosService } from '../../../shared/preguntados.service';
 
 @Component({
   selector: 'app-preguntados',
