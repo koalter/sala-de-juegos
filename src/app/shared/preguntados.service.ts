@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, Firestore, getDocs, query } from '@angular/fire/firestore';
+import { addDoc, collection, Firestore, getDocs, query, Timestamp } from '@angular/fire/firestore';
 import { createClient } from 'pexels';
 import { environment } from '../../environments/environment';
 import { Preguntados } from '../models/Preguntados';
@@ -24,8 +24,8 @@ export class PreguntadosService {
 
       return new Preguntados(result["pregunta"], result["categoria"], result["imagen"], result["respuestas"]);
 
-    } catch (err) {
-      addDoc(collection(this.firestore, 'logErrores'), { error: err });
+    } catch (err : any) {
+      addDoc(collection(this.firestore, 'logErrores'), { error: err.toString(), fecha: Timestamp.now() });
       throw err;
     }
   }
@@ -52,8 +52,8 @@ export class PreguntadosService {
       const result = await this._apiClient.photos.show({ id: id });
       return result["src"]["medium"];
       
-    } catch (err) {
-      addDoc(collection(this.firestore, 'logErrores'), { error: err });
+    } catch (err : any) {
+      addDoc(collection(this.firestore, 'logErrores'), { error: err.toString(), fecha: Timestamp.now() });
       return "";
     }
   }

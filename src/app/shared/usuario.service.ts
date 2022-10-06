@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, User, user } from '@angular/fire/auth';
-import { collection, Firestore } from '@angular/fire/firestore';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from '@angular/fire/auth';
+import { collection, Firestore, Timestamp } from '@angular/fire/firestore';
 import { addDoc } from '@firebase/firestore';
 
 @Injectable({
@@ -14,11 +14,11 @@ export class UsuarioService {
   async iniciarSesion(correo: string, clave: string) {
     try {
       const result = await signInWithEmailAndPassword(this.auth, correo, clave);
-      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()) });
+      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: Timestamp.now() });
       return result.user;
 
-    } catch (err) {
-      addDoc(collection(this.firestore, 'logErrores'), { error: err });
+    } catch (err : any) {
+      addDoc(collection(this.firestore, 'logErrores'), { error: err.toString(), fecha: Timestamp.now() });
       throw err;
     }
   }
@@ -27,11 +27,11 @@ export class UsuarioService {
     try {
       const result = await createUserWithEmailAndPassword(this.auth, correo, clave)
       await updateProfile(result.user, { displayName: nombre });
-      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()) });
+      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: Timestamp.now() });
       return result.user;
 
-    } catch (err) {
-      addDoc(collection(this.firestore, 'logErrores'), { error: err });
+    } catch (err : any) {
+      addDoc(collection(this.firestore, 'logErrores'), { error: err.toString(), fecha: Timestamp.now() });
       throw err;
     }
   }
@@ -40,11 +40,16 @@ export class UsuarioService {
     return this.auth.currentUser;
   }
 
+  public nombreDeUsuario() {
+    const result = this.auth.currentUser;
+    return result?.displayName || result?.email;
+  }
+
   public async cerrarSesion() {
     try {
       await signOut(this.auth);
-    } catch (error) {
-      await addDoc(collection(this.firestore, 'logErrores'), error);
+    } catch (error : any) {
+      await addDoc(collection(this.firestore, 'logErrores'), { error: error.toString(), fecha: Timestamp.now() });
       throw error;
     }
   }

@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   error: string = '';
 
   constructor(private usuarioService : UsuarioService) { 
-    debugger
+
     this.usuario = this.usuarioService.obtenerUsuario();
     this.cargarSpinner = false;
   }
