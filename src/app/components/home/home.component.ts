@@ -52,6 +52,7 @@ export class HomeComponent implements OnInit {
   async cerrarSesion() {
     this.cargarSpinner = true;
     await this.usuarioService.cerrarSesion();
+    this.usuario = null;
     this.modoLogin = 'login';
     this.cargarSpinner = false;
   }
