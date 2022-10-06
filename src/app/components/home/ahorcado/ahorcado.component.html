@@ -1,46 +1,58 @@
 <button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
 <button type="button" (click)="instrucciones = true" class="btn btn-secondary m-2">Instrucciones</button>
-<div class="text-center">
-    <div class="vidas text-center mb-3 fs-4">
-        <span>Vidas:</span>
-        <span class="ps-1 text-danger" *ngFor="let v of vida">&hearts;</span>
-    </div>
-    <div id="palabra" class="text-center mb-5">
-        <button *ngFor="let char of palabra" class="btn btn-outline-light p-3 fs-1 text-info" disabled>{{ char }}</button>
-    </div>
-    <div id="teclado" class="text-center">
-        <div>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">Q</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">W</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">E</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">R</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">T</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">Y</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">U</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">I</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">O</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">P</button>
+<div class="container row pt-2">
+    <div id="resultados" class="card border-primary col-lg-3 p-0">
+        <h3 class="card-header">Resultados</h3>
+        <div class="card-body">
+            <p *ngFor="let resultado of resultados" class="card-text">
+                <span *ngIf="resultado['victoria'] === true" class="text-success">&#x2705;</span>
+                <span *ngIf="resultado['victoria'] === false" class="text-danger">&#x274C;</span>
+                Fecha: {{ resultado["fecha"].toDate() | date: 'd/M/yy hh:mm a' }}
+            </p>
         </div>
-        <div>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">A</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">S</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">D</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">F</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">G</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">H</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">J</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">K</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">L</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">Ñ</button>
+    </div>
+    <div class="text-center col-lg-9">
+        <div class="vidas text-center mb-3 fs-4">
+            <span>Vidas:</span>
+            <span class="ps-1 text-danger" *ngFor="let v of vida">&hearts;</span>
         </div>
-        <div>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">Z</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">X</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">C</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">V</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">B</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">N</button>
-            <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">M</button>
+        <div id="palabra" class="text-center mb-5">
+            <button *ngFor="let char of palabra" class="btn btn-outline-light p-3 fs-1 text-info" disabled>{{ char }}</button>
+        </div>
+        <div id="teclado" class="text-center">
+            <div>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">Q</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">W</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">E</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">R</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">T</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">Y</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">U</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">I</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">O</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">P</button>
+            </div>
+            <div>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">A</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">S</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">D</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">F</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">G</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">H</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">J</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">K</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">L</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">Ñ</button>
+            </div>
+            <div>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">Z</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">X</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">C</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">V</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">B</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">N</button>
+                <button type="button" (click)="seleccionarLetra($event)" class="btn btn-outline-primary p-3 fs-2">M</button>
+            </div>
         </div>
     </div>
 </div>

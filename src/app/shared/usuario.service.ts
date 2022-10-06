@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, User, user } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, User, user } from '@angular/fire/auth';
 import { collection, Firestore } from '@angular/fire/firestore';
 import { addDoc } from '@firebase/firestore';
 
@@ -14,31 +14,38 @@ export class UsuarioService {
   async iniciarSesion(correo: string, clave: string) {
     try {
       const result = await signInWithEmailAndPassword(this.auth, correo, clave);
-      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()).toString() });
+      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()) });
       return result.user;
 
     } catch (err) {
       addDoc(collection(this.firestore, 'logErrores'), { error: err });
-      return null;
+      throw err;
     }
   }
 
-  async registrar(correo: string, clave: string) {
+  async registrar(correo: string, clave: string, nombre? : string) {
     try {
       const result = await createUserWithEmailAndPassword(this.auth, correo, clave)
-      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()).toString() });
+      await updateProfile(result.user, { displayName: nombre });
+      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()) });
       return result.user;
+
     } catch (err) {
       addDoc(collection(this.firestore, 'logErrores'), { error: err });
-      return null;
+      throw err;
     }
   }
 
   public obtenerUsuario() {
-    return user(this.auth);
+    return this.auth.currentUser;
   }
 
   public async cerrarSesion() {
-    await signOut(this.auth);
+    try {
+      await signOut(this.auth);
+    } catch (error) {
+      await addDoc(collection(this.firestore, 'logErrores'), error);
+      throw error;
+    }
   }
 }
