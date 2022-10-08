@@ -17,10 +17,8 @@ export class AhorcadoComponent implements OnInit {
   ganaste : boolean = false;
   instrucciones : boolean = true;
   keys : any[] = [];
-
-  tempFecha : string = formatDate(new Date(), 'dd-MM-YYYY h:mm a', 'en-US');
-
   resultados : any[] = [];
+
   constructor(private resultadosService : ResultadosService) { }
 
   ngOnInit(): void {

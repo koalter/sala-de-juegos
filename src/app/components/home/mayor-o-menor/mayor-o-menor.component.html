@@ -5,7 +5,7 @@
         <h3 class="card-header">Resultados</h3>
         <div class="card-body">
             <p *ngFor="let resultado of resultados" class="card-text">
-                Puntos: {{ resultado["puntos"] }} 
+                Puntos: <span class="text-success">{{ resultado["puntos"] }}</span>
                 Fecha: {{ resultado["fecha"].toDate() | date: 'd/M/yy hh:mm a' }}
             </p>
         </div>

@@ -2,7 +2,7 @@
     <span *ngIf="usuario; then logout; else inicio"></span>
     <ng-template #logout>
         <button class="m-2 btn btn-outline-info">{{ usuario.displayName || usuario.email }}</button>
-        <button (click)="cerrarSesion()" class="m-2 btn btn-danger">Cerrar sesión</button>
+        <button routerLink="" (click)="cerrarSesion()" class="m-2 btn btn-danger">Cerrar sesión</button>
     </ng-template>
     <ng-template #inicio>
         <button (click)="modoLogin = 'login'" class="m-2 btn btn-info">Iniciar sesión</button>

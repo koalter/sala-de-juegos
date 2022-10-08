@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ResultadosService } from 'src/app/shared/resultados.service';
 import { TetrisService } from 'src/app/shared/tetris.service';
 
 @Component({
@@ -15,52 +16,66 @@ export class TetrisComponent implements OnInit, OnDestroy {
   intervalo : number;
   puntos : number = 0;
   puntosSubscriber$ : Subscription;
+  resultados : any[];
+  mostrarResultados : boolean = true;
+  tiempo : Date = new Date(180000);
   
   canvas2dContext : CanvasRenderingContext2D | null;
 
-  constructor(private service : TetrisService) { 
+  constructor(private tetrisService : TetrisService,
+    private resultadosService : ResultadosService) { 
+      this.puntosSubscriber$ = this.tetrisService.obtenerPuntos().subscribe(puntos => {
+        this.puntos = puntos;
+      });
   }
   
   ngOnInit(): void {
-    this.puntosSubscriber$ = this.service.obtenerPuntos().subscribe(puntos => {
-      this.puntos = puntos;
-    })
+    this.resultadosService.getResultados('tetris')
+    .then(res => this.resultados = res);
+    
+    this.perdiste = false;
+    this.tiempo = new Date(180000);
+    this.tetrisService.reiniciarPuntos();
   }
-
+  
   ngOnDestroy(): void {
     this.puntosSubscriber$.unsubscribe();
   }
-
+  
+  toggleResultados() : void {
+    this.mostrarResultados = !this.mostrarResultados;
+  }
+  
   iniciarRenderizado(canvas : HTMLCanvasElement) {
+    this.ngOnInit();
     this.instrucciones = false;
-    this.perdiste = false;
-    this.canvas2dContext = canvas.getContext('2d');
     this.intervalo = Date.now();
+    this.canvas2dContext = canvas.getContext('2d');
 
     if (this.canvas2dContext) {
       this.canvas2dContext.canvas.height = this.canvas2dContext.canvas.width * 2;
-      this.service.mappearTabla(this.canvas2dContext);
-      this.service.nuevaFigura(this.canvas2dContext);
+      this.tetrisService.mappearTabla(this.canvas2dContext);
+      this.tetrisService.nuevaFigura(this.canvas2dContext);
       this.automatizarMovimiento();
     }
   }
 
   moverIzquierda(context : CanvasRenderingContext2D | null) : void {
     if (context) {
-      this.service.moverFiguraIzquierda(context);
+      this.tetrisService.moverFiguraIzquierda(context);
     }
   }
 
   moverDerecha(context : CanvasRenderingContext2D | null) : void {
     if (context) {
-      this.service.moverFiguraDerecha(context);
+      this.tetrisService.moverFiguraDerecha(context);
     }
   }
 
   moverAbajo(context : CanvasRenderingContext2D | null) : void {
     if (context) {
       try {
-        this.service.moverFiguraAbajo(context);
+        this.tetrisService.moverFiguraAbajo(context);
       } catch (error) {
         this.perdiste = true;
       }
@@ -69,32 +84,39 @@ export class TetrisComponent implements OnInit, OnDestroy {
 
   girar(context : CanvasRenderingContext2D | null) : void {
     if (context) {
-      this.service.girarFigura(context);
+      this.tetrisService.girarFigura(context);
     }
   }
 
   tirar(context : CanvasRenderingContext2D | null) {
     if (context) {
       try {
-        while (this.service.moverFiguraAbajo(context)) {}
+        while (this.tetrisService.moverFiguraAbajo(context)) {}
       } catch (err) {
         this.perdiste = true;
+        this.resultadosService.subirResultados('tetris', { puntos: this.puntos });
       }
     }
   }
 
   automatizarMovimiento() : void {
     let ahora = Date.now();
-
+    
     if (ahora - this.intervalo > 990) 
     {
-        this.moverAbajo(this.canvas2dContext);
-        this.intervalo = Date.now();
+      this.tiempo.setSeconds(this.tiempo.getSeconds() - 1);
+      this.moverAbajo(this.canvas2dContext);
+      this.intervalo = Date.now();
+
+      if (this.tiempo.getTime() === 0) {
+        this.perdiste = true;
+        this.resultadosService.subirResultados('tetris', { puntos: this.puntos });
+      }
     }
 
     if(!this.perdiste)
     {
-        requestAnimationFrame(() => this.automatizarMovimiento());
+      requestAnimationFrame(() => this.automatizarMovimiento());
     }
 }
 
