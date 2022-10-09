@@ -4,6 +4,10 @@
 @import '~bootswatch/dist/vapor/bootswatch';
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
+.w-10 {
+    width: 10%;
+}
+
 body {
     min-height: 100vh;
     font-family: 'Roboto Mono';
