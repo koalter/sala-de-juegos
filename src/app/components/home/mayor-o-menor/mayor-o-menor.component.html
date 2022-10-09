@@ -1,13 +1,22 @@
 <button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
 <button type="button" (click)="instrucciones = true" class="btn btn-secondary m-2">Instrucciones</button>
 <div class="row">
-    <div class="text-center col-md-3">
-        <div class="btn btn-outline-primary disabled text-white mt-4">
-            <p>Última carta:</p>
-            <p class="fs-2 text-light">{{valorActual}}</p>
+    <div id="resultados" class="card border-primary col-md-3 p-0">
+        <h3 class="card-header">Resultados</h3>
+        <div class="card-body">
+            <p *ngFor="let resultado of resultados" class="card-text">
+                Puntos: <span class="text-success">{{ resultado["puntos"] }}</span>
+                Fecha: {{ resultado["fecha"].toDate() | date: 'd/M/yy hh:mm a' }}
+            </p>
         </div>
     </div>
     <div class="col-md-9">
+        <div class="row justify-content-center">
+            <div class="card border-primary text-center text-white my-2 pt-2 w-50">
+                <p>Última carta:</p>
+                <p class="fs-2 text-light">{{valorActual}}</p>
+            </div>
+        </div>
         <div class="text-center mb-3 fs-4">
             <span>Puntos:</span>
             <span class="ps-1 text-success">{{ puntos }}</span>

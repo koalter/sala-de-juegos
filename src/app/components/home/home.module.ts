@@ -5,7 +5,7 @@ import { LoginComponent } from '../login/login.component';
 import { RegistroComponent } from '../registro/registro.component';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { AuthErroresComponent } from '../auth-errores/auth-errores.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatModule } from '../chat/chat.module';
 
 import { HomeRoutingModule } from './home-routing.module';
@@ -17,6 +17,7 @@ import { PantallaVictoriaComponent } from './pantalla-victoria/pantalla-victoria
 import { PantallaDerrotaComponent } from './pantalla-derrota/pantalla-derrota.component';
 import { PreguntadosComponent } from './preguntados/preguntados.component';
 import { TetrisComponent } from './tetris/tetris.component';
+import { EncuestaComponent } from './encuesta/encuesta.component';
 
 
 @NgModule({
@@ -33,12 +34,14 @@ import { TetrisComponent } from './tetris/tetris.component';
     PantallaVictoriaComponent,
     PantallaDerrotaComponent,
     PreguntadosComponent,
-    TetrisComponent
+    TetrisComponent,
+    EncuestaComponent
   ],
   imports: [
     CommonModule,
     HomeRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     ChatModule
   ]
 })

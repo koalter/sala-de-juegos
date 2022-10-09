@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
-import { addDoc, collection, Firestore } from '@angular/fire/firestore';
+import { UsuarioService } from 'src/app/shared/usuario.service';
 
 @Component({
   selector: 'app-home',
@@ -14,31 +13,25 @@ export class HomeComponent implements OnInit {
   cargarSpinner: boolean = true;
   error: string = '';
 
-  constructor(private auth: Auth,
-    private firestore: Firestore) { }
+  constructor(private usuarioService : UsuarioService) { 
+
+    this.usuario = this.usuarioService.obtenerUsuario();
+    this.cargarSpinner = false;
+  }
   
   ngOnInit(): void {
-    this.auth.onAuthStateChanged(user => {
-      this.usuario = user;
-      this.cargarSpinner = false;
-    });
   }
 
   async iniciarSesion({ correo, clave }) {
     this.cargarSpinner = true;
-    let error = '';
     try {
-      const result = await signInWithEmailAndPassword(this.auth, correo, clave);
-      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()) });
-      this.usuario = result.user;
+      this.usuario = await this.usuarioService.iniciarSesion(correo, clave);
 
     } catch (err: any) {
-      error = err.code;
-      await addDoc(collection(this.firestore, 'logErrores'), { error: err.message, fecha: new Date(Date.now()) });
+      this.error = err.code;
       this.usuario = null;
     } finally {
       this.cargarSpinner = false;
-      this.error = error;
     }
   }
 
@@ -46,24 +39,20 @@ export class HomeComponent implements OnInit {
     this.cargarSpinner = true;
     let error = '';
     try {
-      const result = await createUserWithEmailAndPassword(this.auth, correo, clave);
-      await updateProfile(result.user, { displayName: nombre });
-      await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: new Date(Date.now()) });
-      this.usuario = result.user;
+      this.usuario = await this.usuarioService.registrar(correo, clave, nombre);
 
     } catch (err: any) {
-      error = err.code;
-      await addDoc(collection(this.firestore, 'logErrores'), { error: err.message, fecha: new Date(Date.now()) });
+      this.error = err.code;
       this.usuario = null;
     } finally {
       this.cargarSpinner = false;
-      this.error = error;
     }
   }
 
   async cerrarSesion() {
     this.cargarSpinner = true;
-    await this.auth.signOut();
+    await this.usuarioService.cerrarSesion();
+    this.usuario = null;
     this.modoLogin = 'login';
     this.cargarSpinner = false;
   }

@@ -1,0 +1,86 @@
+<button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
+<form class="col-md-8 col-lg-6 col-xl-4 m-auto"
+    [formGroup]="formulario" (ngSubmit)="enviar()">
+    <div class="form-group mb-2">
+        <label for="nombre">Nombre:</label>
+        <input class="form-control" type="text" id="nombre" formControlName="nombre" required>
+        <small class="form-text text-danger" *ngIf="(formulario.get('nombre')?.dirty || formulario.get('nombre')?.touched) && formulario.get('nombre')?.invalid">
+            El nombre es requerido
+        </small>
+    </div>
+    <div class="form-group mb-2">
+        <label for="apellido">Apellido:</label>
+        <input class="form-control" type="text" id="apellido" formControlName="apellido" required>
+        <small class="form-text text-danger" *ngIf="(formulario.get('apellido')?.dirty || formulario.get('apellido')?.touched) && formulario.get('apellido')?.invalid">
+            El apellido es requerido
+        </small>
+    </div>
+    <div class="form-group mb-2">
+        <label for="edad">Edad:</label>
+        <input class="form-control" (keydown)="validarNumero($event)" type="text" id="edad" formControlName="edad" required>
+        <small class="form-text text-danger" *ngIf="(formulario.get('edad')?.dirty || formulario.get('edad')?.touched) && formulario.get('edad')?.invalid">
+            Debe ingresar una edad entre 18 y 99
+        </small>
+    </div>
+    <div class="form-group mb-2">
+        <label for="telefono">Teléfono (sin anteceder 0 ni 15) :</label>
+        <input class="form-control" (keydown)="validarNumero($event)" type="text" id="telefono" formControlName="telefono" required>
+        <small class="form-text text-danger" *ngIf="(formulario.get('telefono')?.dirty || formulario.get('telefono')?.touched) && formulario.get('telefono')?.invalid">
+            Un número de teléfono es requerido
+        </small>
+    </div>
+    <div class="form-group mb-2">
+        <label for="pregunta_1" class="form-label mt-4">¿Cuál fue su juego preferido?</label>
+        <select class="form-select" id="pregunta_1" formControlName="pregunta_1" required>
+            <option value="Ahorcado">Ahorcado</option>
+            <option value="Mayor o Menor">Mayor o Menor</option>
+            <option value="Consultados">Consultados</option>
+            <option value="Tetris">Tetris</option>
+        </select>
+        <small class="form-text text-danger" *ngIf="(formulario.get('pregunta_1')?.dirty || formulario.get('pregunta_1')?.touched) && formulario.get('pregunta_1')?.invalid">
+            Debe seleccionar una opción
+        </small>
+    </div>
+    <fieldset class="form-group mb-2">
+        <label class="mt-4">¿Recomendaría este sitio a un amigo o familiar?</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" formControlName="pregunta_2" id="ahorcado" value="Ahorcado" required>
+            <label class="form-check-label" for="ahorcado">
+                Sí
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" formControlName="pregunta_2" id="mayor_o_menor" value="Mayor o Menor" required>
+            <label class="form-check-label" for="mayor_o_menor">
+                No
+            </label>
+        </div>
+        <small class="form-text text-danger" *ngIf="(formulario.get('pregunta_2')?.dirty || formulario.get('pregunta_2')?.touched) && formulario.get('pregunta_2')?.invalid">
+            Debe seleccionar una opción
+        </small>
+    </fieldset>
+    <fieldset class="form-group mb-2">
+        <label for="pregunta_3" class="form-label mt-4">Del 1 al 10 ¿Qué tanto le gustó el Tetris?</label>
+        <div class="row">
+            <div class="col-sm-8 col-md-10">
+                <input type="range" class="form-range m-2" min="1" max="10" step="1" id="pregunta_3" formControlName="pregunta_3" required>
+            </div>
+            <div class="col-sm-3 col-md-2">
+                <input type="text" class="form-control ms-2 text-muted" [value]="formulario.get('pregunta_3')?.value" disabled>
+            </div>
+        </div>
+        <small class="form-text text-danger" *ngIf="(formulario.get('pregunta_3')?.dirty || formulario.get('pregunta_3')?.touched) && formulario.get('pregunta_3')?.invalid">
+            Debe seleccionar un puntaje
+        </small>
+    </fieldset>
+    <button type="submit" class="btn btn-primary my-2" [disabled]="!formulario.valid">Enviar</button>
+</form>
+
+<app-spinner [condicion]="cargarSpinner"></app-spinner>
+
+<div *ngIf="encuestaEnviada" style="backdrop-filter: brightness(0.4);" class="h-100 w-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center text-center">
+    <div class="bg-primary px-4 pt-4 rounded-4 col-md-6">
+        <h2 class="py-2">¡Gracias por responder a la encuesta de satisfacción!</h2>
+        <button class="btn btn-info m-2" routerLink="">Volver</button>
+    </div>
+</div>

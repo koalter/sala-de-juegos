@@ -8,12 +8,16 @@ import { Tetromino, TetrominoFactory } from '../models/Tetromino';
 export class TetrisService {
 
   figura : Tetromino;
-  tiempo : number;
   mapping : any[];
   puntos : number = 0;
   puntos$ = new Subject<number>();
   
   constructor() { }
+
+  reiniciarPuntos() : void {
+    this.puntos = 0;
+    this.puntos$.next(this.puntos);
+  }
 
   sumarPuntos() : void {
     this.puntos += 10;

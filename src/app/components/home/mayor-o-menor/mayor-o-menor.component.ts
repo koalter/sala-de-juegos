@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ResultadosService } from 'src/app/shared/resultados.service';
+import { UsuarioService } from 'src/app/shared/usuario.service';
 
 @Component({
   selector: 'app-mayor-o-menor',
@@ -13,15 +15,19 @@ export class MayorOMenorComponent implements OnInit {
   valorActual : number = 0;
   valorSiguiente : number = 0;
   puntos : number = 0;
+  resultados : any[];
 
   mazo : {} = {
     indice: 0,
     naipes: []
   };
 
-  constructor() { }
+  constructor(private resultadosService : ResultadosService) { }
 
   ngOnInit(): void {
+    this.resultadosService.getResultados('mayor-o-menor')
+    .then(res => this.resultados = res);
+
     this.mazo["naipes"] = this.llenarMazo();
     this.mazo["indice"] = 0;
     this.valorActual = this.mazo["naipes"][this.mazo["indice"]];
@@ -63,18 +69,21 @@ export class MayorOMenorComponent implements OnInit {
         case 'mayor':
           if (this.valorSiguiente < this.valorActual) {
             this.perdiste = true;
-            return;
           }
           break;
         case 'menor':
           if (this.valorSiguiente > this.valorActual) {
             this.perdiste = true;
-            return;
           }
           break;
         default:
           this.perdiste = true;
-          return;  
+          break;
+      }
+
+      if (this.perdiste) {
+        this.resultadosService.subirResultados('mayor-o-menor', { puntos: this.puntos });
+        return;
       }
 
       this.puntos++;

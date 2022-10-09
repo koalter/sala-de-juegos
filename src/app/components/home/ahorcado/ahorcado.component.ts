@@ -1,4 +1,6 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ResultadosService } from 'src/app/shared/resultados.service';
 
 @Component({
   selector: 'app-ahorcado',
@@ -15,10 +17,14 @@ export class AhorcadoComponent implements OnInit {
   ganaste : boolean = false;
   instrucciones : boolean = true;
   keys : any[] = [];
+  resultados : any[] = [];
 
-  constructor() { }
+  constructor(private resultadosService : ResultadosService) { }
 
   ngOnInit(): void {
+    this.resultadosService.getResultados('ahorcado')
+    .then(res => this.resultados = res);
+
     const res : string = this.palabras[Math.floor(Math.random() * this.palabras.length)];
     this.palabraOculta = res.split('');
     this.palabra = this.palabraOculta.map(v => v).fill('_');
@@ -57,10 +63,12 @@ export class AhorcadoComponent implements OnInit {
     
     if (this.vida.length <= 0) {
       this.perdiste = true;
+      this.resultadosService.subirResultados('ahorcado', { victoria: false });
     }
 
     if (this.palabra.toString() === this.palabraOculta.toString()) {
       this.ganaste = true;
+      this.resultadosService.subirResultados('ahorcado', { victoria: true });
     }
   }
 }

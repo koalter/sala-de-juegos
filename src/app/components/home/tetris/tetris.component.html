@@ -1,12 +1,25 @@
-<button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
+<button type="button" (click)="this.perdiste = true" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
 <button type="button" (click)="instrucciones = true" class="btn btn-secondary m-2">Instrucciones</button>
-<div class="container d-flex justify-content-center">
-    <div>
+<div class="container row">
+    <div id="resultados" class="card border-primary col-lg-3 p-0">
+        <h3 class="card-header" (click)="toggleResultados()">Resultados</h3>
+        <div *ngIf="resultados && mostrarResultados" class="card-body">
+            <p *ngFor="let resultado of resultados" class="card-text">
+                Puntos: <span class="text-success">{{ resultado["puntos"] }}</span> 
+                Fecha: {{ resultado["fecha"].toDate() | date: 'd/M/yy hh:mm a' }}
+            </p>
+        </div>
+    </div>
+    <div class="col-lg-9 p-0">
+        <div class="text-center fs-4">
+            <span>Tiempo:</span>
+            <span class="ps-1 text-info">{{ this.tiempo.getMinutes() | number: '2.0-0' }}:{{ this.tiempo.getSeconds() | number: '2.0-0' }}</span>
+        </div>
         <div class="text-center mb-3 fs-4">
             <span>Puntos:</span>
             <span class="ps-1 text-success">{{ this.puntos }}</span>
         </div>
-        <div class="card border-primary p-0" style="max-width: 300px;">
+        <div class="card border-primary p-0 m-auto" style="max-width: 300px;">
             <canvas #canvas class="w-100"></canvas>
         </div>
         <div>
@@ -30,10 +43,11 @@
         <h2 class="py-2">Instrucciones del Tetris</h2>
         <div class="text-start">
             <p class="text-white">El objetivo es formar lineas con los distintos bloques que recibas.</p>
+            <p class="text-white">Vas a tener un tiempo límite de 3 minutos.</p>
             <p class="text-white">Mové el bloque con los botones de flechas púrpuras.</p>
             <p class="text-white">El botón azul gira el bloque.</p>
             <p class="text-white">El botón rojo suelta el bloque hasta el fondo.</p>
-            <p class="text-white">Cada vez que formes una linea, esta desaparecerá y ganarás puntos.</p>
+            <p class="text-white">Cada vez que formes una linea, esta desaparecerá y ganarás 10 puntos.</p>
             <p class="text-white">El juego termina cuando los bloques se hayan acumulado tanto que no puedas generar uno nuevo.</p>
         </div>
         <button class="btn btn-info m-2" (click)="iniciarRenderizado(canvas)">Jugar</button>

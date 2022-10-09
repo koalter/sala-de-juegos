@@ -8,7 +8,7 @@
             <input class="form-control" type="password" id="clave" [(ngModel)]="clave" name="clave" placeholder="Contraseña">
             <label class="text-muted" for="clave">Contraseña</label>
         </div>
-        <button class="btn btn-info w-100 p-3 mb-4" (click)="enviarCredenciales()">Iniciar sesión</button>
+        <button routerLink="" class="btn btn-info w-100 p-3 mb-4" (click)="enviarCredenciales()">Iniciar sesión</button>
     </form>
     <button (click)="usarDatosDePrueba('test1@example.com', 'password')" class="btn btn-secondary w-100 p-2 my-1">Usar test1</button>
     <button (click)="usarDatosDePrueba('test2@example.com', 'password')" class="btn btn-warning w-100 p-2 my-1">Usar test2</button>

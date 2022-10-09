@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ResultadosService } from 'src/app/shared/resultados.service';
 import { Preguntados } from '../../../models/Preguntados';
 import { PreguntadosService } from '../../../shared/preguntados.service';
 
@@ -15,10 +16,16 @@ export class PreguntadosComponent implements OnInit {
   perdiste : boolean = false;
   pregunta : Preguntados;
   imagenPregunta : string = "";
+  resultados : any[] = [];
 
-  constructor(private service : PreguntadosService) { }
+  constructor(private preguntadosService : PreguntadosService,
+    private resultadosService : ResultadosService) { }
 
   ngOnInit(): void {
+    this.resultadosService.getResultados('preguntados')
+    .then(res => this.resultados = res);
+
+    this.generarPregunta();
   }
 
   comenzar() {
@@ -33,10 +40,10 @@ export class PreguntadosComponent implements OnInit {
     this.ganaste = false;
     this.perdiste = false;
 
-    this.service.generarPregunta()
+    this.preguntadosService.generarPregunta()
     .then(res => {
       this.pregunta = res;
-      this.service.obtenerImagen(res.imagen)
+      this.preguntadosService.obtenerImagen(res.imagen)
       .then(foto => this.imagenPregunta = foto);
     })
     .catch(err => console.log(err))
@@ -49,6 +56,8 @@ export class PreguntadosComponent implements OnInit {
     } else {
       this.perdiste = true;
     }
+
+    this.resultadosService.subirResultados('preguntados', { victoria: this.pregunta.respuestas[index].solucion });
   }
 
 }

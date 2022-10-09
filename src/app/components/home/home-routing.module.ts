@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AhorcadoComponent } from './ahorcado/ahorcado.component';
 import { BienvenidoComponent } from './bienvenido/bienvenido.component';
+import { EncuestaComponent } from './encuesta/encuesta.component';
 import { HomeComponent } from './home.component';
 import { MayorOMenorComponent } from './mayor-o-menor/mayor-o-menor.component';
 import { PreguntadosComponent } from './preguntados/preguntados.component';
@@ -31,6 +32,10 @@ const routes: Routes = [
       {
         path: 'tetris',
         component: TetrisComponent
+      },
+      {
+        path: 'encuesta',
+        component: EncuestaComponent
       }
     ]
   }

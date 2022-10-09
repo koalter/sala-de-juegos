@@ -1,5 +1,5 @@
-<div id="chat" class="border p-2 fixed-bottom d-flex justify-content-end">
-    <div (click)="abrirChat()" *ngIf="!toggleChat" class="btn btn-primary px-4 m-2 position-relative">
+<div id="chat" class="col-1 offset-11 border p-2 fixed-bottom d-flex justify-content-end">
+    <div id="btn_chat" (click)="abrirChat()" *ngIf="!toggleChat" class="btn btn-primary px-4 m-2 position-relative">
         Chat
         <span *ngIf="nuevosMensajes" class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-2"><span class="visually-hidden">unread messages</span></span>
     </div>
