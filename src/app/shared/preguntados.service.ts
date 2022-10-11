@@ -15,7 +15,7 @@ export class PreguntadosService {
 
   async generarPregunta() {
     try {
-      const q = query(collection(this.firestore, "preguntados"));
+      const q = query(collection(this.firestore, "juegos", "preguntados", "preguntas"));
       const querySnapshot = await getDocs(q);
       const index = Math.floor(Math.random() * querySnapshot.size);
       

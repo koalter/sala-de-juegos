@@ -1,0 +1,45 @@
+<button type="button" routerLink="" class="btn btn-info m-2">&LessLess; Volver</button>
+<div class="container row pt-2">
+    <div id="usuarios" class="card border-primary col-lg-3 p-0">
+        <h3 class="card-header">Ver encuestas</h3>
+        <div class="card-body">
+            <p *ngFor="let data of encuestas" class="card-text pointer" role="button" (click)="seleccionar($event, data)">
+                {{ data.usuario }}
+            </p>
+        </div>
+    </div>
+    <div *ngIf="encuestaSeleccionada" id="encuestas" class="card border-primary col-lg-6 p-0">
+        <div class="card-body">
+            <p class="card-title fs-5 text-info">Nombre</p>
+            <p class="card-subtitle fs-6">{{ encuestaSeleccionada.nombre }}</p>
+        </div>
+        <div class="card-body">
+            <p class="card-title fs-5 text-info">Apellido</p>
+            <p class="card-subtitle fs-6">{{ encuestaSeleccionada.apellido }}</p>
+        </div>
+        <div class="card-body">
+            <p class="card-title fs-5 text-info">Edad</p>
+            <p class="card-subtitle fs-6">{{ encuestaSeleccionada.edad }}</p>
+        </div>
+        <div class="card-body">
+            <p class="card-title fs-5 text-info">Teléfono</p>
+            <p class="card-subtitle fs-6">{{ encuestaSeleccionada.telefono }}</p>
+        </div>
+        <div class="card-body">
+            <p class="card-title fs-5 text-info">Fecha</p>
+            <p class="card-subtitle fs-6">{{ encuestaSeleccionada.fecha | date: 'd/M/yy hh:mm a' }}</p>
+        </div>
+        <div class="card-body">
+            <p class="card-title fs-5 text-info">¿Cuál fue su juego preferido?</p>
+            <p class="card-subtitle fs-6">{{ encuestaSeleccionada.juegoPreferido }}</p>
+        </div>
+        <div class="card-body">
+            <p class="card-title fs-5 text-info">¿Recomendaría este sitio a un amigo o familiar?</p>
+            <p class="card-subtitle fs-6">{{ encuestaSeleccionada.recomienda ? 'Sí' : 'No' }}</p>
+        </div>
+        <div class="card-body">
+            <p class="card-title fs-5 text-info">Del 1 al 10 ¿Qué tanto le gustó el Tetris?</p>
+            <p class="card-subtitle fs-6">{{ encuestaSeleccionada.puntajeJuegoPropio }}</p>
+        </div>
+    </div>
+</div>

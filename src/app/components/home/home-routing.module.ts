@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { EncuestaListadoComponent } from '../encuesta-listado/encuesta-listado.component';
 import { AhorcadoComponent } from './ahorcado/ahorcado.component';
 import { BienvenidoComponent } from './bienvenido/bienvenido.component';
 import { EncuestaComponent } from './encuesta/encuesta.component';
@@ -36,6 +37,10 @@ const routes: Routes = [
       {
         path: 'encuesta',
         component: EncuestaComponent
+      },
+      {
+        path: 'encuesta/listado',
+        component: EncuestaListadoComponent
       }
     ]
   }
