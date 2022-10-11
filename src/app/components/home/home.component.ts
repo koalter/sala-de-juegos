@@ -20,9 +20,10 @@ export class HomeComponent implements OnInit {
     private firestore : Firestore) { 
     
     this.auth.onAuthStateChanged(user => {
-      this.usuarioService.usuario = user;
-      this.usuario = user;
-      this.cargarSpinner = false;
+      this.usuarioService.setUsuario(user).finally(() => {
+        this.usuario = user;
+        this.cargarSpinner = false;
+      });
     });
   }
   
@@ -34,8 +35,6 @@ export class HomeComponent implements OnInit {
     try {
       const result = await signInWithEmailAndPassword(this.auth, correo, clave);
       await addDoc(collection(this.firestore, 'logUsuarios'), { usuario: correo, fechaInicio: Timestamp.now() });
-      this.usuarioService.usuario = result.user;
-      this.usuario = result.user;
 
     } catch (err : any) {
       addDoc(collection(this.firestore, 'logErrores'), { error: err.toString(), fecha: Timestamp.now() });

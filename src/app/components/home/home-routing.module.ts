@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EncuestaListadoComponent } from '../encuesta-listado/encuesta-listado.component';
+import { EncuestaListadoComponent } from './encuesta-listado/encuesta-listado.component';
 import { AhorcadoComponent } from './ahorcado/ahorcado.component';
 import { BienvenidoComponent } from './bienvenido/bienvenido.component';
 import { EncuestaComponent } from './encuesta/encuesta.component';
@@ -8,6 +8,7 @@ import { HomeComponent } from './home.component';
 import { MayorOMenorComponent } from './mayor-o-menor/mayor-o-menor.component';
 import { PreguntadosComponent } from './preguntados/preguntados.component';
 import { TetrisComponent } from './tetris/tetris.component';
+import { AdminGuard } from 'src/app/guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -40,7 +41,8 @@ const routes: Routes = [
       },
       {
         path: 'encuesta/listado',
-        component: EncuestaListadoComponent
+        component: EncuestaListadoComponent,
+        canActivate: [AdminGuard]
       }
     ]
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Encuesta } from '../../models/Encuesta';
-import { EncuestaService } from '../../shared/encuesta.service';
+import { Encuesta } from '../../../models/Encuesta';
+import { EncuestaService } from '../../../shared/encuesta.service';
 
 @Component({
   selector: 'app-encuesta-listado',
@@ -17,13 +17,11 @@ export class EncuestaListadoComponent implements OnInit {
   ngOnInit(): void {
     this.encuestaService.traerTodas()
     .then(res => {
-      this.encuestas = res
-      console.log(res)
+      this.encuestas = res;
     });
   }
 
-  seleccionar(event : any, data : Encuesta) {
+  seleccionar(data : Encuesta) {
     this.encuestaSeleccionada = data;
-    console.log(event);
   }
 }
