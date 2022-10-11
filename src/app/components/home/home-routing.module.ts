@@ -9,6 +9,7 @@ import { MayorOMenorComponent } from './mayor-o-menor/mayor-o-menor.component';
 import { PreguntadosComponent } from './preguntados/preguntados.component';
 import { TetrisComponent } from './tetris/tetris.component';
 import { AdminGuard } from 'src/app/guards/admin.guard';
+import { EncuestaGuard } from 'src/app/guards/encuesta.guard';
 
 const routes: Routes = [
   {
@@ -37,7 +38,8 @@ const routes: Routes = [
       },
       {
         path: 'encuesta',
-        component: EncuestaComponent
+        component: EncuestaComponent,
+        canActivate: [EncuestaGuard]
       },
       {
         path: 'encuesta/listado',
