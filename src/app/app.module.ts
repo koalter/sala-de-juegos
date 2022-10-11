@@ -9,11 +9,13 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { QuienSoyComponent } from './components/quien-soy/quien-soy.component';
 import { FormsModule } from '@angular/forms';
+import { EncuestaListadoComponent } from './components/home/encuesta-listado/encuesta-listado.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    QuienSoyComponent
+    QuienSoyComponent,
+    EncuestaListadoComponent
   ],
   imports: [
     FormsModule,

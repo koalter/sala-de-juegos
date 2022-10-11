@@ -44,14 +44,14 @@
     <fieldset class="form-group mb-2">
         <label class="mt-4">¿Recomendaría este sitio a un amigo o familiar?</label>
         <div class="form-check">
-            <input class="form-check-input" type="radio" formControlName="pregunta_2" id="ahorcado" value="Ahorcado" required>
-            <label class="form-check-label" for="ahorcado">
+            <input class="form-check-input" type="radio" formControlName="pregunta_2" id="pregunta_2_true" [value]="true" required>
+            <label class="form-check-label" for="pregunta_2_true">
                 Sí
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" formControlName="pregunta_2" id="mayor_o_menor" value="Mayor o Menor" required>
-            <label class="form-check-label" for="mayor_o_menor">
+            <input class="form-check-input" type="radio" formControlName="pregunta_2" id="pregunta_2_false" [value]="false" required>
+            <label class="form-check-label" for="pregunta_2_false">
                 No
             </label>
         </div>

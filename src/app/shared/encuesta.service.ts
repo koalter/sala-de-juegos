@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { doc, Firestore, getDoc, getDocs, query, setDoc, where } from '@angular/fire/firestore';
 import { addDoc, collection, Timestamp } from '@firebase/firestore';
+import { Encuesta } from '../models/Encuesta';
 import { UsuarioService } from './usuario.service';
 
 @Injectable({
@@ -43,6 +44,38 @@ export class EncuestaService {
 
       return null;
       
+    } catch (error : any) {
+      await addDoc(collection(this.firestore, 'logErrores'), { error: error.toString(), fecha: Timestamp.now() });
+      throw error;
+    }
+  }
+
+  async traerTodas() : Promise<Encuesta[]> {
+    const respuesta : Encuesta[] = [];
+    
+    try {
+      const q = query(collection(this.firestore, 'encuestas'));
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        const item : Encuesta = {
+          usuario: doc.id,
+          nombre: data['nombre'] as string,
+          apellido: data['apellido'] as string,
+          edad: data['edad'] as number,
+          telefono: data['telefono'] as number,
+          fecha: (data['fecha'] as Timestamp).toDate(),
+          juegoPreferido: data['juegoPreferido'] as string,
+          recomienda: data['recomienda'] as boolean,
+          puntajeJuegoPropio: data['puntajeJuegoPropio'] as number
+        };
+
+        respuesta.push(item);
+      });
+
+      return respuesta;
+
     } catch (error : any) {
       await addDoc(collection(this.firestore, 'logErrores'), { error: error.toString(), fecha: Timestamp.now() });
       throw error;
